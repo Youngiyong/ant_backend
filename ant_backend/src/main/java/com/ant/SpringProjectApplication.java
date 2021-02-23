@@ -1,13 +1,15 @@
-package com.example.demo;
+package com.ant;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+ 
 @SpringBootApplication
-public class DemoApplication {
+public class SpringProjectApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(SpringProjectApplication.class, args);
+		//웹애플리케이션 구동
 	}
 
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTDMapper3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.ant.mapper.UserMapper">
+      
+     <insert id="kakaoinsertUser" parameterType="com.ant.vo.KakaoUserVO">
+INSERT INTO user(userid , email,kakaoname,nickname,phone )
+ VALUE (#{userid},#{email},#{kakaoname},#{nickname},#{phone})
+      </insert>
+  
+     <select id="userList" resultType="com.ant.vo.UserVO">
+         SELECT * FROM users
+         ORDER BY id
+     </select>
+     
+     <select id="fetchUserByID" resultType="com.ant.vo.UserVO"
+      parameterType="int">
+         SELECT * FROM users
+         WHERE id = #{id}
+     </select>
+     
+     <select id="kakaofetchUserByID" resultType="com.ant.vo.KakaoUserVO"
+      parameterType="string">
+         SELECT * FROM user
+         WHERE userid = #{kakaoid}
+     </select>
+     
+     <delete id="deleteUser" parameterType="int">
+         DELETE FROM users
+         WHERE id = #{id}
+     </delete>
+     
+     <update id="updateUser" parameterType="com.ant.vo.UserVO">
+         UPDATE users
+         SET firstName = #{firstName}, lastName = #{lastName}, age = #{age}, salary = #{salary} 
+         WHERE id = #{id}
+     </update>
+  
+</mapper>

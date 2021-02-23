@@ -19,7 +19,7 @@ import com.ant.vo.UserVO;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/user")
-public class UserController2 {
+public class UserController {
  
     @Autowired
     UserMapper userMapper;
@@ -47,6 +47,9 @@ public class UserController2 {
 //      userMapper.kakaoinsertUser(kakaouser);
     	
     	System.out.println("컨트롤러");
+    	System.out.println(kakaouser.getEmail());
+    	
+
     	userService.userJoin(kakaouser);
         System.out.println("카카오 유저 저장 성공");
     }

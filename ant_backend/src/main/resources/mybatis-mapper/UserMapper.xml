@@ -5,8 +5,8 @@
   <mapper namespace="com.ant.mapper.UserMapper">
       
      <insert id="kakaoinsertUser" parameterType="com.ant.vo.KakaoUserVO">
-		INSERT INTO user(userid , email, kakaoname,nickname,phone )
- 		VALUE (#{userid}, #{email}, #{kakaoname},#{nickname},#{phone})
+		INSERT INTO user(userid , email, kakaoname,nickname,phone ,pass )
+ 		VALUE (#{userid}, #{email}, #{kakaoname},#{nickname},#{phone},#{pass})
       </insert>
   
      <select id="userList" resultType="com.ant.vo.UserVO">

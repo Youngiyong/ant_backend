@@ -5,6 +5,7 @@ import lombok.Data;
 public class KakaoUserVO {
     int userid;
     String email;
+    String pass;
     String kakaoname;
     String nickname;
     String phone;

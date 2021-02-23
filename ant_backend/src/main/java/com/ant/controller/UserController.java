@@ -28,9 +28,9 @@ public class UserController {
     UserServiceImpl userService;
  
     @GetMapping("/{id}")
-    public Object fetchUserByID(@PathVariable int id) {
+    public Object fetchUserByID(@PathVariable int id) throws Exception {
         System.out.println(id);
-        KakaoUserVO fetchUser = userMapper.kakaofetchUserByID(String.valueOf(id));
+        KakaoUserVO fetchUser = userService.kakaofetchUserByID(String.valueOf(id));
         // db에 id가 없는경우
         if(fetchUser==null) {
         	return "신규회원";

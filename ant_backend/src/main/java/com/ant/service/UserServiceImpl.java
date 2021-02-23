@@ -19,6 +19,11 @@ public class UserServiceImpl implements UserService {
 		userMapper.kakaoinsertUser(vo);
 		
 	}
+	@Override
+	public KakaoUserVO kakaofetchUserByID(String kakaoid) throws Exception {
+		KakaoUserVO fetchUser = userMapper.kakaofetchUserByID(kakaoid);
+		return fetchUser;
+	}
 
 	
 }

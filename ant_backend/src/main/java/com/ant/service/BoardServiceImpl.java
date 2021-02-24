@@ -23,6 +23,19 @@ public class BoardServiceImpl implements BoardService {
 		return boardlist;
 	}
 
+	@Override
+	public void BoardViewCount(int id) {
+		boardMapper.BoardViewCount(id);
+		
+	}
+	@Override
+	public BoardVO fetchBoardByID(int id) {
+		BoardVO board = boardMapper.fetchBoardByID(id);
+		return board;
+	}
+
+
+
 
 	
 }

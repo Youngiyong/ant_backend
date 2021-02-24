@@ -30,13 +30,26 @@ public class BoardController {
     @Autowired
     BoardServiceImpl boardService;
  
+
     @GetMapping
     public List<BoardVO> BoardListGet() throws Exception {
     	System.out.println("게시판 컨트롤러 요청");
     	List<BoardVO> boardList = boardService.boardListGet();
-
         	return boardList;
-        
+    }
+    
+    @GetMapping("/{boardid}")
+    public BoardVO fetchBoardByID(@PathVariable int boardid) throws Exception  {
+        System.out.println("조회수카운트증가안함");
+        BoardVO board = boardService.fetchBoardByID(boardid);
+        return board;
+    }
+    @GetMapping("/{boardid}/count")
+    public BoardVO fetchBoardByIDcount(@PathVariable int boardid) throws Exception{
+        System.out.println("조회수카운트증가");
+        boardService.BoardViewCount(boardid);
+        BoardVO board = boardService.fetchBoardByID(boardid);
+        return board;
     }
 
     

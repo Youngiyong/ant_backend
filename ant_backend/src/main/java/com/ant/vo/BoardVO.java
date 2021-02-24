@@ -12,6 +12,7 @@ public class BoardVO {
     int board_hidden;
     String MANAGER_ID;
     int board_viewnum;
+    int board_LikeNum;
     
     String nickname;
 }

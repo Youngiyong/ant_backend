@@ -5,7 +5,12 @@
   <mapper namespace="com.ant.mapper.BoardMapper">
   
      <select id="boardList" resultType="com.ant.vo.BoardVO">
-         SELECT * FROM board
+         SELECT board.*, user.nickname as nickname FROM board INNER JOIN user ON board.userid = user.userid
      </select>
-
+     <update id="BoardViewCount" parameterType="int">
+         UPDATE board SET board_viewnum = board_viewnum + 1 WHERE board_id = #{boardid}
+     </update>
+     <select id="fetchBoardByID" resultType="com.ant.vo.BoardVO" parameterType="int">
+         SELECT * FROM board INNER JOIN user ON board.userid = user.userid where board.board_id = #{boardid}
+     </select>
 </mapper>

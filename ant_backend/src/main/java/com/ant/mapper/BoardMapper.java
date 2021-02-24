@@ -11,6 +11,8 @@ import com.ant.vo.UserVO;
 public interface BoardMapper {
  
     public List<BoardVO> boardList();
+    public void BoardViewCount(int id);
+    public BoardVO fetchBoardByID(int id);
 ////    public KakaoUserVO fetchUserByID(int id);
 //    public KakaoUserVO kakaofetchUserByID(String id);
 //    public void updateUser(KakaoUserVO user);

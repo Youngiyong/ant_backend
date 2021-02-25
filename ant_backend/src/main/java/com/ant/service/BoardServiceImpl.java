@@ -86,8 +86,8 @@ public class BoardServiceImpl implements BoardService {
 		return result;
 	}
 	@Override
-	public List<String> fetchUserSavedBoardList(int userid) {
-		List<String> boardlist = boardMapper.fetchUserSavedBoardList(userid);
+	public List<String> fetchUserSavedBoardListCheck(int userid) {
+		List<String> boardlist = boardMapper.fetchUserSavedBoardListCheck(userid);
 		return boardlist;
 	}
 	@Override
@@ -96,6 +96,16 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.addSaveddUserBoard(board);
 	
 		return 0;
+	}
+	@Override
+	public List<BoardVO> fetchUserSavedBoardList(int userid) {
+		List<BoardVO> boardlist = boardMapper.fetchUserSavedBoardList(userid);
+		return boardlist;
+	}
+	@Override
+	public List<BoardVO> fetchSavedUserBoardLiked(int userid) {
+		List<BoardVO> boardlist = boardMapper.fetchSavedUserBoardLiked(userid);
+		return boardlist;
 	}
 
 

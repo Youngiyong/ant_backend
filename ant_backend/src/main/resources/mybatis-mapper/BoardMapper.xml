@@ -35,11 +35,21 @@
      <select id="fetchUserlikeBoard" resultType="int" parameterType="map">
          SELECT count(*) FROM userlikeboard where board_id = #{board_id} and userid = #{userid}
      </select>
-     <select id="fetchUserSavedBoardList" resultType="string" parameterType="int">
-         SELECT board_id FROM usersavedboard WHERE userid = #{userid};
+     <select id="fetchUserSavedBoardListCheck" resultType="string" parameterType="int">
+         SELECT board_id FROM usersavedboard WHERE userid = #{userid}
      </select>
      <insert id="addSaveddUserBoard" parameterType="com.ant.vo.BoardVO">
 		INSERT INTO usersavedboard(userid ,board_id)
 		 VALUE (#{userid},#{board_id})
       </insert>
+     <select id="fetchUserSavedBoardList" resultType="com.ant.vo.BoardVO" parameterType="int">
+         SELECT * FROM board
+			WHERE board_id IN
+			(SELECT board_id FROM usersavedboard WHERE userid = #{userid}) ORDER BY board_createdata desc
+     </select>
+          <select id="fetchSavedUserBoardLiked" resultType="com.ant.vo.BoardVO" parameterType="int">
+         SELECT * FROM board
+			WHERE board_id IN
+			(SELECT board_id FROM usersavedboard WHERE userid = #{userid}) ORDER BY board_LikeNum desc
+     </select>
 </mapper>

@@ -24,8 +24,10 @@ public interface BoardMapper {
     public int deleteUserlikeBoard(Map map);
     public int fetchUserlikeBoard(Map map);
     
-    public List<String> fetchUserSavedBoardList(int userid);
+    public List<String> fetchUserSavedBoardListCheck(int userid);
     public int addSaveddUserBoard(BoardVO board);
+    public List<BoardVO> fetchUserSavedBoardList(int userid);
+    public List<BoardVO> fetchSavedUserBoardLiked(int userid);
 ////    public KakaoUserVO fetchUserByID(int id);
 //    public KakaoUserVO kakaofetchUserByID(String id);
 //    public void updateUser(KakaoUserVO user);

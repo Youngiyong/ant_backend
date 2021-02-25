@@ -22,19 +22,29 @@ import org.elasticsearch.search.sort.ScoreSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonObjectSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.util.JSONPObject;
+
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@CrossOrigin(origins = "*", maxAge = 10000)
 @RestController
+@RequestMapping("/news")
 public class ElasticSearchController {
 
 	@Autowired
@@ -49,17 +59,40 @@ public class ElasticSearchController {
 		@Bean(destroyMethod = "close")
 		@Scope("prototype")//prototype : 어플리케이션에서 요청시 (getBean()) 마다 스프링이 새 인스턴스를 생성
 		public RestHighLevelClient restHighLevelClient(){
-		      return new RestHighLevelClient(RestClient.builder(new HttpHost("192.168.56.101",9200,"http")));
+		      return new RestHighLevelClient(RestClient.builder(new HttpHost("3.34.197.97",9200,"http")));
 		}
-		
-		
+		@GetMapping(value = "/create2")
+		public String create2() throws IOException {
+			CreateIndexRequest request = new CreateIndexRequest("news");
+			request.settings(Settings.builder()
+					.put("index.number_of_shards", 1)
+					.put("index.number_of_replicas", 2)
+					);
+			request.mapping( 	
+			        "{\n" +
+			                "  \"properties\": {\n" +
+			                "    \"news_id\": {\n" +
+			                "      \"type\": \"text\",\n" +
+			                "        \"fields\": {\n"+
+			                "        	\"keyword\": {\n"+
+			                "			\"type\": \"keyword\",\n"+
+			                "			 \"ignore_above\": 256 \n"+
+			                "    }\n" +
+			                "  }\n" +
+			                "  }\n" +
+			                "  }\n" +
+			                "}", 
+			        XContentType.JSON);
+			CreateIndexResponse indexResponse = client.indices().create(request, RequestOptions.DEFAULT);
+			return "created2";
+		}
 		//index 생성시 mapping의 설정한 형식으로 생성됨
 		@GetMapping(value = "/create")
 		public String ping() throws IOException {
-			CreateIndexRequest request = new CreateIndexRequest("news_keyword-2021.02.21");
+			CreateIndexRequest request = new CreateIndexRequest("news_keyword-2021.02.23");
 			request.settings(Settings.builder()
-					.put("index.number_of_shards", 2)
-					.put("index.number_of_replicas", 3)
+					.put("index.number_of_shards", 1)
+					.put("index.number_of_replicas", 2)
 					);
 			request.mapping( 	
 			        "{\n" +
@@ -87,8 +120,10 @@ public class ElasticSearchController {
 		@GetMapping(value = "/upsert")
 		public String upsert(String id) throws IOException {
 			Map<String, Object> jsonMap = new HashMap<>();
-			jsonMap.put("word", id);
-			IndexRequest request = new IndexRequest("news_keyword-2021.02.21").id(String.valueOf(count++)).source(jsonMap);
+			JSONObject obj = new JSONObject(id);
+			jsonMap.put("word", obj.get("search"));
+			System.out.println(obj.get("search"));
+			IndexRequest request = new IndexRequest("news_keyword-2021.02.23").id(String.valueOf(count++)).source(jsonMap);
 			IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
 			return "success";
 		}
@@ -107,9 +142,9 @@ public class ElasticSearchController {
 	  	}
 		}
 		 */
-		@GetMapping(value = "searchcount")
+		@GetMapping(value = "/searchcount")
 	    public ResponseEntity searchcount() throws IOException {
-			SearchRequest searchRequest = new SearchRequest("news_keyword-2021.02.21");
+			SearchRequest searchRequest = new SearchRequest("news_keyword-2021.02.23");
 			SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 			searchSourceBuilder.size(0);		
 			TermsAggregationBuilder aggregation = AggregationBuilders.terms("group_by_word").field("word.keyword").size(10);
@@ -132,7 +167,7 @@ public class ElasticSearchController {
 	        sourceBuilder.query(matchQueryBuilder);
 	        sourceBuilder.from(0);
 	        sourceBuilder.size(50);
-	        SearchRequest searchRequest = new SearchRequest("news-2021.02.21");
+	        SearchRequest searchRequest = new SearchRequest("news");
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
 	        JSONObject json = new JSONObject(searchResponse.toString());
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
@@ -145,7 +180,7 @@ public class ElasticSearchController {
 	        sourceBuilder.query(matchQueryBuilder);
 	        sourceBuilder.from(0);
 	        sourceBuilder.size(50);
-	        SearchRequest searchRequest = new SearchRequest("news-2021.02.21");
+	        SearchRequest searchRequest = new SearchRequest("news");
 	        searchRequest.source(sourceBuilder);
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
 	        JSONObject json = new JSONObject(searchResponse.toString());
@@ -160,13 +195,14 @@ public class ElasticSearchController {
 		@GetMapping(value = "searchmatchparse")
 	    public ResponseEntity searchmatchparse(String id) throws IOException {
 	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("title", id);
+	        System.out.println(id);
 	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 	        sourceBuilder.query(matchQueryBuilder);
 	        sourceBuilder.from(0);
 	        sourceBuilder.size(50);
-	        sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC)); 
-	        sourceBuilder.sort(new FieldSortBuilder("_id").order(SortOrder.ASC));  
-	        SearchRequest searchRequest = new SearchRequest("news-2021.02.21");
+//	        sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC)); 
+//	        sourceBuilder.sort(new FieldSortBuilder("_id").order(SortOrder.ASC));  
+	        SearchRequest searchRequest = new SearchRequest("news");
 	        searchRequest.source(sourceBuilder);
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
 	        JSONObject json = new JSONObject(searchResponse.toString());
@@ -180,7 +216,7 @@ public class ElasticSearchController {
 	        sourceBuilder.query(matchQueryBuilder);
 	        sourceBuilder.from(0);
 	        sourceBuilder.size(10); 
-	        SearchRequest searchRequest = new SearchRequest("news-2021.02.21");
+	        SearchRequest searchRequest = new SearchRequest("news");
 	        searchRequest.source(sourceBuilder);
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
 	        JSONObject json = new JSONObject(searchResponse.toString());
@@ -192,45 +228,45 @@ public class ElasticSearchController {
 		@GetMapping(value = "bulkrequest")
 	    public BulkResponse bulkrequest() throws IOException {
 			BulkRequest request = new BulkRequest(); 
-			request.add(new IndexRequest("news-2021.02.21").id("1")  
+			request.add(new IndexRequest("news").id("1")  
 			        .source(XContentType.JSON,"word", "금융감독원"));
-			request.add(new IndexRequest("news-2021.02.21").id("2")  
+			request.add(new IndexRequest("news").id("2")  
 			        .source(XContentType.JSON,"word", "금융결제원"));
-			request.add(new IndexRequest("news-2021.02.21").id("3")  
+			request.add(new IndexRequest("news").id("3")  
 			        .source(XContentType.JSON,"word", "금융조합"));
-			request.add(new IndexRequest("news-2021.02.21").id("4")  
+			request.add(new IndexRequest("news").id("4")  
 			        .source(XContentType.JSON,"word", "금융소비자원"));
-			request.add(new IndexRequest("news-2021.02.21").id("5")  
+			request.add(new IndexRequest("news").id("5")  
 			        .source(XContentType.JSON,"word", "금융산업"));
-			request.add(new IndexRequest("news-2021.02.21").id("6")  
+			request.add(new IndexRequest("news").id("6")  
 			        .source(XContentType.JSON,"word", "금융 자격증"));
-			request.add(new IndexRequest("news-2021.02.21").id("7")  
+			request.add(new IndexRequest("news").id("7")  
 			        .source(XContentType.JSON,"word", "금융 데이터"));
-			request.add(new IndexRequest("news-2021.02.21").id("8")  
+			request.add(new IndexRequest("news").id("8")  
 			        .source(XContentType.JSON,"word", "금융이란"));
-			request.add(new IndexRequest("news-2021.02.21").id("9")  
+			request.add(new IndexRequest("news").id("9")  
 			        .source(XContentType.JSON,"word", "금융위기"));
-			request.add(new IndexRequest("news-2021.02.21").id("10")  
+			request.add(new IndexRequest("news").id("10")  
 			        .source(XContentType.JSON,"word", "부자"));
-			request.add(new IndexRequest("news-2021.02.21").id("11")  
+			request.add(new IndexRequest("news").id("11")  
 			        .source(XContentType.JSON,"word", "부동산"));
-			request.add(new IndexRequest("news-2021.02.21").id("12")  
+			request.add(new IndexRequest("news").id("12")  
 			        .source(XContentType.JSON,"word", "부양"));
-			request.add(new IndexRequest("news-2021.02.21").id("13")  
+			request.add(new IndexRequest("news").id("13")  
 			        .source(XContentType.JSON,"word", "삼성"));
-			request.add(new IndexRequest("news-2021.02.21").id("14")  
+			request.add(new IndexRequest("news").id("14")  
 			        .source(XContentType.JSON,"word", "삼성전자"));
-			request.add(new IndexRequest("news-2021.02.21").id("15")  
+			request.add(new IndexRequest("news").id("15")  
 			        .source(XContentType.JSON,"word", "삼성에스원"));
-			request.add(new IndexRequest("news-2021.02.21").id("16")  
+			request.add(new IndexRequest("news").id("16")  
 			        .source(XContentType.JSON,"word", "삼성전기"));
-			request.add(new IndexRequest("news-2021.02.21").id("17")  
+			request.add(new IndexRequest("news").id("17")  
 			        .source(XContentType.JSON,"word", "경제뉴스"));
-			request.add(new IndexRequest("news-2021.02.21").id("18")  
+			request.add(new IndexRequest("news").id("18")  
 			        .source(XContentType.JSON,"word", "경제신문"));
-			request.add(new IndexRequest("news-2021.02.21").id("19")  
+			request.add(new IndexRequest("news").id("19")  
 			        .source(XContentType.JSON,"word", "경제위기"));
-			request.add(new IndexRequest("news-2021.02.21").id("20")  
+			request.add(new IndexRequest("news").id("20")  
 			        .source(XContentType.JSON,"word", "경제란"));
 			BulkResponse bulkResponse = client.bulk(request, RequestOptions.DEFAULT);
 			return bulkResponse;

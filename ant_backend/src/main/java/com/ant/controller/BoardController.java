@@ -50,6 +50,19 @@ public class BoardController {
     	List<BoardVO> boardList = boardService.boardListGetLiked();
         	return boardList;
     }
+    @GetMapping("/savedboard/{userid}")
+    public List<String> fetchUserSavedBoardList(@PathVariable int userid) throws Exception {
+    	System.out.println("저장한 게시물 리스트 요청");
+    	List<String> boardList = boardService.fetchUserSavedBoardList(userid);
+        	return boardList;
+    }
+    @PostMapping("/saved")
+    void addSaveddUserBoard(@RequestBody BoardVO board) {
+    	boardService.addSaveddUserBoard(board);
+    	System.out.println("유저 저장한글 테이블에 게시판 저장");
+        System.out.println(board);
+    }
+    
     
     @GetMapping("/{boardid}")
     public BoardVO fetchBoardByID(@PathVariable int boardid) throws Exception  {

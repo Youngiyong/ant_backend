@@ -18,4 +18,6 @@ public interface BoardService {
 	public int insertUserLikedBoard(BoardVO board);
 	public int deleteUserlikeBoard(int board_id,int userid);
 	public int fetchUserlikeBoard(int board_id,int userid);
+	public List<String> fetchUserSavedBoardList(int userid);
+	public int addSaveddUserBoard(BoardVO board);
 }

@@ -85,6 +85,18 @@ public class BoardServiceImpl implements BoardService {
 		int result = boardMapper.fetchUserlikeBoard(map);
 		return result;
 	}
+	@Override
+	public List<String> fetchUserSavedBoardList(int userid) {
+		List<String> boardlist = boardMapper.fetchUserSavedBoardList(userid);
+		return boardlist;
+	}
+	@Override
+	public int addSaveddUserBoard(BoardVO board) {
+		System.out.println("유저 저장한글 테이블에 게시판 저장 / 서비스");	
+		boardMapper.addSaveddUserBoard(board);
+	
+		return 0;
+	}
 
 
 

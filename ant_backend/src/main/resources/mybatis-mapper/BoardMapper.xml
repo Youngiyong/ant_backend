@@ -5,7 +5,34 @@
   <mapper namespace="com.ant.mapper.BoardMapper">
   
      <select id="boardList" resultType="com.ant.vo.BoardVO">
-         SELECT * FROM board
+         SELECT board.*, user.nickname as nickname FROM board INNER JOIN user ON board.userid = user.userid ORDER BY board_createdata desc
      </select>
-
+     <select id="boardListLiked" resultType="com.ant.vo.BoardVO">
+		SELECT board.*, user.nickname as nickname FROM board INNER JOIN user ON board.userid = user.userid ORDER BY board_LikeNum desc
+     </select>
+     <select id="boardListGetSave" resultType="com.ant.vo.BoardVO">
+		SELECT board.*, user.nickname as nickname FROM board INNER JOIN user ON board.userid = user.userid ORDER BY board_LikeNum desc
+     </select>
+     <update id="BoardViewCount" parameterType="int">
+         UPDATE board SET board_viewnum = board_viewnum + 1 WHERE board_id = #{boardid}
+     </update>
+     <select id="fetchBoardByID" resultType="com.ant.vo.BoardVO" parameterType="int">
+         SELECT * FROM board INNER JOIN user ON board.userid = user.userid where board.board_id = #{boardid}
+     </select>
+     <update id="updateBoard" parameterType="com.ant.vo.BoardVO">
+         UPDATE board
+         SET board_title = #{board_title}, board_content = #{board_content}, board_hidden = #{board_hidden}, board_LikeNum = #{board_LikeNum} 
+         WHERE board_id = #{board_id}
+     </update>
+     <insert id="addUserLikeBoard" parameterType="com.ant.vo.BoardVO">
+		INSERT INTO userlikeboard(userid ,board_id)
+		 VALUE (#{userid},#{board_id})
+      </insert>
+     <delete id="deleteUserlikeBoard" parameterType="map">
+         DELETE FROM userlikeboard
+         WHERE userid = #{userid} and board_id = #{board_id}
+     </delete>
+          <select id="fetchUserlikeBoard" resultType="int" parameterType="map">
+         SELECT count(*) FROM userlikeboard where board_id = #{board_id} and userid = #{userid}
+     </select>
 </mapper>

@@ -11,4 +11,8 @@ public class BoardVO {
     String board_modifydata;
     int board_hidden;
     String MANAGER_ID;
+    int board_viewnum;
+    int board_LikeNum;
+    
+    String nickname;
 }

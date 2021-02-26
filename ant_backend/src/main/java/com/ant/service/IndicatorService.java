@@ -21,4 +21,7 @@ public interface IndicatorService {
 	
 	//달러_유로_1일_전체_수치
 	public List<ExechangeRateVO> labelDalOneList();
+	
+	//차트-숫자대입-국내환율
+	public List<ExechangeRateKorVO> chartIndi(int num);
 }

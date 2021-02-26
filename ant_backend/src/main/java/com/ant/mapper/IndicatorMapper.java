@@ -24,5 +24,8 @@ public interface IndicatorMapper {
 
 	//달러_유로_1일_리스트
 	List<ExechangeRateVO> labelDalOneList();
+
+	//차트-수치대입-국내환율
+	List<ExechangeRateKorVO> chartIndi(int num);
  
 }

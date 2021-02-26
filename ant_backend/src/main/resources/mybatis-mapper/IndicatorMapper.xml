@@ -25,4 +25,9 @@
   SELECT dates, exechange_name, symbol, rates FROM exechangerate WHERE symbol='EURUSD' order BY dates desc LIMIT 1
   </select>
   
+  <!-- 차트-수치대입-국내 -->
+  <select id="chartIndi" parameterType="int" resultType="com.ant.vo.ExechangeRateKorVO">
+  SELECT dates, rates FROM usdkrw LIMIT #{num}
+  </select>
+  
 </mapper>

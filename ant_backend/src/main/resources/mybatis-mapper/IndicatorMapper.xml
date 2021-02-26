@@ -27,7 +27,7 @@
   
   <!-- 차트-수치대입-국내 -->
   <select id="chartIndi" parameterType="int" resultType="com.ant.vo.ExechangeRateKorVO">
-  SELECT dates, rates FROM usdkrw LIMIT #{num}
+  SELECT dates, rates FROM usdkrw ORDER BY dates desc LIMIT #{num}
   </select>
   
 </mapper>

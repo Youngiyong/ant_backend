@@ -48,6 +48,7 @@ public class IndicatorServiceImpl implements IndicatorService {
 	//차트-숫자대입
 	public List<ExechangeRateKorVO> chartIndi(int num) {
 		System.out.println("차트-숫자대입");
+		//int number = Integer.parseInt(num);
 		return IndicatorMapper.chartIndi(num);
 	}
 	

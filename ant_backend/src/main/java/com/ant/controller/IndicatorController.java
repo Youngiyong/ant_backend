@@ -66,4 +66,12 @@ public class IndicatorController {
 		return indicatorService.labelDalOneList();
 	}
     
+    //차트-국내환율
+    @GetMapping("/chart/{num}")
+	public List<ExechangeRateKorVO> chartIndi(@PathVariable int num){
+		System.out.println("차트-국내환율");
+		return indicatorService.chartIndi(num);
+	}
+    
+    
 }

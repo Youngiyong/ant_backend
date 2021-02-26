@@ -45,5 +45,12 @@ public class IndicatorServiceImpl implements IndicatorService {
 		return IndicatorMapper.labelDalOneList();
 	}
 
+	//차트-숫자대입
+	public List<ExechangeRateKorVO> chartIndi(int num) {
+		System.out.println("차트-숫자대입");
+		return IndicatorMapper.chartIndi(num);
+	}
+	
+
 	
 }

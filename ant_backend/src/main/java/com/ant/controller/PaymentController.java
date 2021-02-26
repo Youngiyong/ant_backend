@@ -47,7 +47,7 @@ public class PaymentController {
 		paymentService.modifyPayment(payment);
 	}
     
-  //고객 구독여부 확인
+    //고객 구독여부 확인
     @GetMapping("/confirm/{userId}")
 	public int conformSub(@PathVariable String userId){
 		System.out.println("구독확인");

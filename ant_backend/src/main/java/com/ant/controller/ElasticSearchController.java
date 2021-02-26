@@ -22,25 +22,21 @@ import org.elasticsearch.search.sort.ScoreSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jackson.JsonObjectSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.databind.util.JSONPObject;
-
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+
 
 @CrossOrigin(origins = "*", maxAge = 10000)
 @RestController
@@ -56,10 +52,12 @@ public class ElasticSearchController {
 		
 		//RestHighLevelClient사용후 반드 Close를 해야된다고 필히 명시가 되어 있었고
 		//그에 따른 Spring에서 Bean 어노테이션에 destroymethod 속성을 사용해서 자원을 해제 할 수 있음
+		
+		
 		@Bean(destroyMethod = "close")
 		@Scope("prototype")//prototype : 어플리케이션에서 요청시 (getBean()) 마다 스프링이 새 인스턴스를 생성
 		public RestHighLevelClient restHighLevelClient(){
-		      return new RestHighLevelClient(RestClient.builder(new HttpHost("3.34.197.97",9200,"http")));
+		      return new RestHighLevelClient(RestClient.builder(new HttpHost("0.0.0.0",9200,"http")));
 		}
 		@GetMapping(value = "/create2")
 		public String create2() throws IOException {
@@ -142,9 +140,10 @@ public class ElasticSearchController {
 	  	}
 		}
 		 */
-		@GetMapping(value = "/searchcount")
+		@GetMapping(value = "searchcount")
 	    public ResponseEntity searchcount() throws IOException {
 			SearchRequest searchRequest = new SearchRequest("news_keyword-2021.02.23");
+			System.out.println("searchcount");
 			SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 			searchSourceBuilder.size(0);		
 			TermsAggregationBuilder aggregation = AggregationBuilders.terms("group_by_word").field("word.keyword").size(10);
@@ -162,7 +161,7 @@ public class ElasticSearchController {
 		//GetMapping은 RequestMapping(value="", method = RequestMethod.Get)을 대신 하는 코드 스프링 4.3버전 이후로 나왔다고함
 		@GetMapping(value = "searchfuzzy")
 	    public ResponseEntity searchfuzzy(String id) throws IOException {
-	        QueryBuilder matchQueryBuilder = QueryBuilders.fuzzyQuery("title", id);
+	        QueryBuilder matchQueryBuilder = QueryBuilders.fuzzyQuery("news_title", id);
 	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 	        sourceBuilder.query(matchQueryBuilder);
 	        sourceBuilder.from(0);
@@ -194,14 +193,16 @@ public class ElasticSearchController {
 		//예) 모든 단어가 정확한 위치에 있어야 매치된다.
 		@GetMapping(value = "searchmatchparse")
 	    public ResponseEntity searchmatchparse(String id) throws IOException {
-	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("title", id);
+	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_title", id);
 	        System.out.println(id);
 	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 	        sourceBuilder.query(matchQueryBuilder);
+	        System.out.println("test");
 	        sourceBuilder.from(0);
 	        sourceBuilder.size(50);
-//	        sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC)); 
-//	        sourceBuilder.sort(new FieldSortBuilder("_id").order(SortOrder.ASC));  
+	        System.out.println(sourceBuilder);
+	        sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC)); 
+	        sourceBuilder.sort(new FieldSortBuilder("_id").order(SortOrder.ASC));  
 	        SearchRequest searchRequest = new SearchRequest("news");
 	        searchRequest.source(sourceBuilder);
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);

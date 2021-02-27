@@ -24,4 +24,7 @@ public interface IndicatorService {
 	
 	//차트-숫자대입-국내환율
 	public List<ExechangeRateKorVO> chartIndi(int num);
+	
+	//차트-숫자대입-해외환율
+	public List<ExechangeRateVO> chartIndiFor(String symbol, int num);
 }

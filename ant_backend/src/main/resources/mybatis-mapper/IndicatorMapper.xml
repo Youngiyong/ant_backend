@@ -30,4 +30,11 @@
   SELECT dates, rates FROM usdkrw ORDER BY dates desc LIMIT #{num}
   </select>
   
+  <!-- 차트-수치대입-해외환율 -->
+  <select id="chartIndiFor" parameterType="hashmap" resultType="com.ant.vo.ExechangeRateVO">
+  SELECT dates, exechange_name, symbol, rates FROM exechangerate  where symbol=#{symbol} ORDER BY dates desc LIMIT #{num}
+  </select>
+  
+  
+  
 </mapper>

@@ -73,5 +73,11 @@ public class IndicatorController {
 		return indicatorService.chartIndi(num);
 	}
     
+    //차트-해외환율
+    @GetMapping("/chart/{symbol}/{num}")
+	public List<ExechangeRateVO> chartIndiFor(@PathVariable String symbol, @PathVariable int num){
+		System.out.println("차트-해외환율");
+		return indicatorService.chartIndiFor(symbol, num);
+	}
     
 }

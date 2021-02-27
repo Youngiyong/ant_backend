@@ -1,5 +1,6 @@
 package com.ant.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +46,19 @@ public class IndicatorServiceImpl implements IndicatorService {
 		return IndicatorMapper.labelDalOneList();
 	}
 
-	//차트-숫자대입
+	//차트-숫자대입-원/달러
 	public List<ExechangeRateKorVO> chartIndi(int num) {
-		System.out.println("차트-숫자대입");
-		//int number = Integer.parseInt(num);
+		System.out.println("차트-숫자대입-원/달러");		
 		return IndicatorMapper.chartIndi(num);
+	}
+
+	//차트-해외환율
+	public List<ExechangeRateVO> chartIndiFor(String symbol, int num) {
+		System.out.println("차트-숫자대입-해외환율");
+		HashMap map = new HashMap();
+		map.put("symbol", symbol);	
+		map.put("num", num);
+		return IndicatorMapper.chartIndiFor(map);
 	}
 	
 

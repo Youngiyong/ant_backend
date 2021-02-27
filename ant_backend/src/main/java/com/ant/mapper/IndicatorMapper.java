@@ -1,5 +1,6 @@
 package com.ant.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,5 +28,8 @@ public interface IndicatorMapper {
 
 	//차트-수치대입-국내환율
 	List<ExechangeRateKorVO> chartIndi(int num);
+
+	//차트-수치대입-해외환율
+	List<ExechangeRateVO> chartIndiFor(HashMap map);
  
 }

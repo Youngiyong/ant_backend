@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ant.mapper.UserMapper;
 import com.ant.service.UserServiceImpl;
+import com.ant.vo.BoardVO;
 import com.ant.vo.KakaoUserVO;
 import com.ant.vo.UserVO;
  
@@ -27,6 +28,12 @@ public class UserController {
     @Autowired
     UserServiceImpl userService;
  
+    @GetMapping
+    public List<KakaoUserVO> UserListGet() throws Exception {
+    	System.out.println("전체 유저 리스트 요청");
+    	List<KakaoUserVO> userList = userService.UserListGet();
+        	return userList;
+    }
     @GetMapping("/{id}")
     public Object fetchUserByID(@PathVariable int id) throws Exception {
         System.out.println(id);
@@ -41,7 +48,6 @@ public class UserController {
         	return fetchUser;
         }
     }
-    
     @PostMapping
     public void insertUser(@RequestBody KakaoUserVO kakaouser) throws Exception {
 //      userMapper.kakaoinsertUser(kakaouser);
@@ -53,7 +59,13 @@ public class UserController {
     	userService.userJoin(kakaouser);
         System.out.println("카카오 유저 저장 성공");
     }
-
+    @DeleteMapping("/{id}")
+    public int deleteUser(@PathVariable int id) throws Exception {
+    	int result = userService.deleteUser(id);
+    	System.out.println(result);
+        System.out.println("유저 삭제 성공");
+        return result;
+    }
 
     
 }

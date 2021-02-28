@@ -9,9 +9,8 @@
  		VALUE (#{userid}, #{email}, #{kakaoname},#{nickname},#{phone},#{pass})
       </insert>
   
-     <select id="userList" resultType="com.ant.vo.UserVO">
-         SELECT * FROM users
-         ORDER BY id
+     <select id="UserListGet" resultType="com.ant.vo.KakaoUserVO">
+         SELECT * FROM user
      </select>
      
      <select id="fetchUserByID" resultType="com.ant.vo.UserVO"
@@ -27,8 +26,8 @@
      </select>
      
      <delete id="deleteUser" parameterType="int">
-         DELETE FROM users
-         WHERE id = #{id}
+         DELETE FROM user
+         WHERE userid = #{userid}
      </delete>
      
      <update id="updateUser" parameterType="com.ant.vo.UserVO">

@@ -1,5 +1,7 @@
 package com.ant.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,16 @@ public class UserServiceImpl implements UserService {
 	public KakaoUserVO kakaofetchUserByID(String kakaoid) throws Exception {
 		KakaoUserVO fetchUser = userMapper.kakaofetchUserByID(kakaoid);
 		return fetchUser;
+	}
+	@Override
+	public List<KakaoUserVO> UserListGet() throws Exception {
+		List<KakaoUserVO> userlist = userMapper.UserListGet();
+		return userlist;
+	}
+	@Override
+	public int deleteUser(int id) throws Exception {
+		int result = userMapper.deleteUser(id);
+		return result;
 	}
 
 	

@@ -28,6 +28,7 @@ public interface BoardMapper {
     public int addSaveddUserBoard(BoardVO board);
     public List<BoardVO> fetchUserSavedBoardList(int userid);
     public List<BoardVO> fetchSavedUserBoardLiked(int userid);
+    public int deleteBoard(int boardid);
 ////    public KakaoUserVO fetchUserByID(int id);
 //    public KakaoUserVO kakaofetchUserByID(String id);
 //    public void updateUser(KakaoUserVO user);

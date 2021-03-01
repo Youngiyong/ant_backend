@@ -30,10 +30,10 @@
          WHERE userid = #{userid}
      </delete>
      
-     <update id="updateUser" parameterType="com.ant.vo.UserVO">
-         UPDATE users
-         SET firstName = #{firstName}, lastName = #{lastName}, age = #{age}, salary = #{salary} 
-         WHERE id = #{id}
+     <update id="updateUser" parameterType="com.ant.vo.KakaoUserVO">
+         UPDATE user
+         SET nickname = #{nickname}, email = #{email} 
+         WHERE userid = #{userid}
      </update>
   
 </mapper>

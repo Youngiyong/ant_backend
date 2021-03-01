@@ -52,4 +52,8 @@
 			WHERE board_id IN
 			(SELECT board_id FROM usersavedboard WHERE userid = #{userid}) ORDER BY board_LikeNum desc
      </select>
+     <delete id="deleteBoard" parameterType="int">
+         DELETE FROM board
+         WHERE board_id = #{board_id}
+     </delete>
 </mapper>

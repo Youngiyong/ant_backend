@@ -36,7 +36,13 @@ public class BoardController {
     public List<BoardVO> BoardListGet() throws Exception {
     	System.out.println("전체 최신순 게시물 요청");
     	List<BoardVO> boardList = boardService.boardListGet();
+    	System.out.println(boardList);
         	return boardList;
+    }
+    @DeleteMapping("/{boardid}")
+    public void deleteBoard(@PathVariable int boardid) {
+    	boardService.deleteBoard(boardid);
+        System.out.println("게시물 삭제 성공");
     }
     @GetMapping("/likedorder")
     public List<BoardVO> BoardListGetLiked() throws Exception {

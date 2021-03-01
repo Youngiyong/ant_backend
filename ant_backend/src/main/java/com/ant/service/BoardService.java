@@ -22,4 +22,5 @@ public interface BoardService {
 	public int addSaveddUserBoard(BoardVO board);
 	public List<BoardVO> fetchUserSavedBoardList(int userid);
 	public List<BoardVO> fetchSavedUserBoardLiked(int userid);
+	public int deleteBoard(int boardid);
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTDMapper3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.ant.mapper.CommentMapper">
+  
+     <select id="commentList" resultType="com.ant.vo.CommentVO">
+         SELECT comment.*, user.nickname as nickname FROM comment INNER JOIN user ON comment.userid = user.userid ORDER BY comment_createdata desc
+     </select>
+     
+     <select id="fetchCommentsByBoardID" resultType="com.ant.vo.CommentVO" parameterType="int">
+         SELECT * FROM comment INNER JOIN user ON comment.userid = user.userid where comment.board_id = #{board_id}
+     </select>
+
+     <select id="fetchcommentByID" resultType="com.ant.vo.CommentVO" parameterType="int">
+         SELECT * FROM comment INNER JOIN user ON comment.userid = user.userid where comment.comment_id = #{comment_id}
+     </select>
+     
+     <update id="updateComment" parameterType="com.ant.vo.CommentVO">
+         UPDATE comment
+         SET comment_content = #{comment_content}, comment_hidden = #{comment_hidden}, comment_LikeNum = #{comment_LikeNum} 
+         WHERE comment_id = #{comment_id}
+     </update>
+
+     <delete id="deleteComment" parameterType="int">
+         DELETE FROM comment
+         WHERE comment_id = #{comment_id}
+     </delete>
+</mapper>

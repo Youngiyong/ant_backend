@@ -11,4 +11,5 @@ public interface UserService {
 	public KakaoUserVO kakaofetchUserByID(String kakaoid) throws Exception;
 	public List<KakaoUserVO> UserListGet() throws Exception;
 	public int deleteUser(int id) throws Exception;
+	public int updateUser(KakaoUserVO vo) throws Exception;
 }

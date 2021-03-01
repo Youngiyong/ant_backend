@@ -13,9 +13,9 @@ public interface UserMapper {
     public List<KakaoUserVO> UserListGet();
 //    public KakaoUserVO fetchUserByID(int id);
     public KakaoUserVO kakaofetchUserByID(String id);
-    public void updateUser(KakaoUserVO user);
     public void insertUser(KakaoUserVO user);
     public void kakaoinsertUser(KakaoUserVO kakaouser);
     public int deleteUser(int id);
+    public int updateUser(KakaoUserVO user);
     
 }

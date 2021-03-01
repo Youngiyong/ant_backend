@@ -107,6 +107,11 @@ public class BoardServiceImpl implements BoardService {
 		List<BoardVO> boardlist = boardMapper.fetchSavedUserBoardLiked(userid);
 		return boardlist;
 	}
+	@Override
+	public int deleteBoard(int boardid) {
+		int result = boardMapper.deleteBoard(boardid);
+		return result;
+	}
 
 
 

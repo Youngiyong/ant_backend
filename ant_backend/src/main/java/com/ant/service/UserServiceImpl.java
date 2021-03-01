@@ -36,6 +36,11 @@ public class UserServiceImpl implements UserService {
 		int result = userMapper.deleteUser(id);
 		return result;
 	}
+	@Override
+	public int updateUser(KakaoUserVO vo) throws Exception {
+		int result = userMapper.updateUser(vo);
+		return result;
+	}
 
 	
 }

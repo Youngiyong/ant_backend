@@ -66,6 +66,15 @@ public class UserController {
         System.out.println("유저 삭제 성공");
         return result;
     }
+    
+    @PutMapping("/{id}")
+    public void updateUser(@PathVariable String id, @RequestBody KakaoUserVO user) throws Exception {
+        System.out.println("뭐지???");
+    	KakaoUserVO updateUser = user;
+        System.out.println("유저 업데이트 => " + updateUser);
+        
+         userService.updateUser(updateUser); 
+    }
 
     
 }

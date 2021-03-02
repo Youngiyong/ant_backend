@@ -10,5 +10,6 @@ public class Indicator2VO {
     float open;
     float high;
     float low;
+    String keyword;
     
 }

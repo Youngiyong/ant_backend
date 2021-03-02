@@ -22,6 +22,8 @@ import com.ant.service.UserServiceImpl;
 import com.ant.vo.BoardVO;
 import com.ant.vo.ExechangeRateKorVO;
 import com.ant.vo.ExechangeRateVO;
+import com.ant.vo.Indicator1VO;
+import com.ant.vo.Indicator2VO;
 import com.ant.vo.KakaoUserVO;
 import com.ant.vo.PaymentVO;
 import com.ant.vo.UserVO;
@@ -78,6 +80,20 @@ public class IndicatorController {
 	public List<ExechangeRateVO> chartIndiFor(@PathVariable String symbol, @PathVariable int num){
 		System.out.println("차트-해외환율");
 		return indicatorService.chartIndiFor(symbol, num);
+	}
+    
+    //지표-유형1(국제금,WTI)
+    @GetMapping("/indi1/{tableName}/{num}")
+	public List<Indicator1VO> indicators1(@PathVariable String tableName, @PathVariable int num){
+		System.out.println("지표-유형1(국제금,WTI)");
+		return indicatorService.indicators1(tableName, num);
+	}
+    
+    //지표-유형2(미10년,미2년,달러인덱스,비트코인)
+    @GetMapping("/indi2/{tableName}/{num}")
+	public List<Indicator2VO> indicators2(@PathVariable String tableName, @PathVariable int num){
+		System.out.println("지표-유형1(국제금,WTI)");
+		return indicatorService.indicators2(tableName, num);
 	}
     
 }

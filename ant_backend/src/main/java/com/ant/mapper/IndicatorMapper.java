@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ant.vo.BoardVO;
 import com.ant.vo.ExechangeRateKorVO;
 import com.ant.vo.ExechangeRateVO;
+import com.ant.vo.Indicator1VO;
+import com.ant.vo.Indicator2VO;
 import com.ant.vo.KakaoUserVO;
 import com.ant.vo.PaymentVO;
 import com.ant.vo.UserVO;
@@ -31,5 +33,11 @@ public interface IndicatorMapper {
 
 	//차트-수치대입-해외환율
 	List<ExechangeRateVO> chartIndiFor(HashMap map);
+	
+	//지표-유형1(국제금,WTI)
+	List<Indicator1VO> indicators1(HashMap map);
+
+	//지표-유형2(미10년,미2년,달러인덱스,비트코인)
+	List<Indicator2VO> indicators2(HashMap map);
  
 }

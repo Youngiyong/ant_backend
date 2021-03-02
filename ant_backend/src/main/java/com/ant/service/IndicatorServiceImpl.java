@@ -12,6 +12,8 @@ import com.ant.mapper.UserMapper;
 import com.ant.vo.BoardVO;
 import com.ant.vo.ExechangeRateKorVO;
 import com.ant.vo.ExechangeRateVO;
+import com.ant.vo.Indicator1VO;
+import com.ant.vo.Indicator2VO;
 import com.ant.vo.KakaoUserVO;
 import com.ant.vo.PaymentVO;
 
@@ -59,6 +61,24 @@ public class IndicatorServiceImpl implements IndicatorService {
 		map.put("symbol", symbol);	
 		map.put("num", num);
 		return IndicatorMapper.chartIndiFor(map);
+	}
+	
+	//지표-유형1(국제금,WTI)
+	public List<Indicator1VO> indicators1(String tableName, int num) {
+		System.out.println("지표-유형1(국제금,WTI)");
+		HashMap map = new HashMap();
+		map.put("tableName", tableName);	
+		map.put("num", num);
+		return IndicatorMapper.indicators1(map);
+	}
+	
+	//지표-유형2(미10년,미2년,달러인덱스,비트코인)
+	public List<Indicator2VO> indicators2(String tableName, int num) {
+		System.out.println("지표-유형2(미10년,미2년,달러인덱스,비트코인)");
+		HashMap map = new HashMap();
+		map.put("tableName", tableName);	
+		map.put("num", num);
+		return IndicatorMapper.indicators2(map);
 	}
 	
 

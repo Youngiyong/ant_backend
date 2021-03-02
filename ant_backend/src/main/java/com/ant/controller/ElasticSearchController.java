@@ -35,7 +35,10 @@ import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilde
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 @CrossOrigin(origins = "*", maxAge = 10000)
@@ -49,7 +52,7 @@ public class ElasticSearchController {
 	
 	//id값을 1씩 증가시키기 위해 static으로 선언
 		static int count;
-		
+		UUID uuidran = UUID.randomUUID();
 		//RestHighLevelClient사용후 반드 Close를 해야된다고 필히 명시가 되어 있었고
 		//그에 따른 Spring에서 Bean 어노테이션에 destroymethod 속성을 사용해서 자원을 해제 할 수 있음
 		
@@ -57,7 +60,7 @@ public class ElasticSearchController {
 		@Bean(destroyMethod = "close")
 		@Scope("prototype")//prototype : 어플리케이션에서 요청시 (getBean()) 마다 스프링이 새 인스턴스를 생성
 		public RestHighLevelClient restHighLevelClient(){
-		      return new RestHighLevelClient(RestClient.builder(new HttpHost("0.0.0.0",9200,"http")));
+		      return new RestHighLevelClient(RestClient.builder(new HttpHost("3.36.26.132",9200,"http")));
 		}
 		@GetMapping(value = "/create2")
 		public String create2() throws IOException {
@@ -121,7 +124,7 @@ public class ElasticSearchController {
 			JSONObject obj = new JSONObject(id);
 			jsonMap.put("word", obj.get("search"));
 			System.out.println(obj.get("search"));
-			IndexRequest request = new IndexRequest("news_keyword-2021.02.23").id(String.valueOf(count++)).source(jsonMap);
+			IndexRequest request = new IndexRequest("news_keyword-2021.02.23").id(uuidran.toString()).source(jsonMap);
 			IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
 			return "success";
 		}
@@ -174,14 +177,15 @@ public class ElasticSearchController {
 		
 		@GetMapping(value = "searchprefix")
 	    public ResponseEntity searchprefix(String id) throws IOException {
-	        QueryBuilder matchQueryBuilder = QueryBuilders.prefixQuery("title", id);
+	        QueryBuilder matchQueryBuilder = QueryBuilders.prefixQuery("news_title", id);
 	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 	        sourceBuilder.query(matchQueryBuilder);
 	        sourceBuilder.from(0);
-	        sourceBuilder.size(50);
+	        sourceBuilder.size(10);
 	        SearchRequest searchRequest = new SearchRequest("news");
 	        searchRequest.source(sourceBuilder);
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+	        System.out.println(searchResponse);
 	        JSONObject json = new JSONObject(searchResponse.toString());
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 	    }
@@ -194,21 +198,112 @@ public class ElasticSearchController {
 		@GetMapping(value = "searchmatchparse")
 	    public ResponseEntity searchmatchparse(String id) throws IOException {
 	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_title", id);
-	        System.out.println(id);
 	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 	        sourceBuilder.query(matchQueryBuilder);
-	        System.out.println("test");
 	        sourceBuilder.from(0);
-	        sourceBuilder.size(50);
-	        System.out.println(sourceBuilder);
-	        sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC)); 
-	        sourceBuilder.sort(new FieldSortBuilder("_id").order(SortOrder.ASC));  
+	        sourceBuilder.size(10);
+//	        sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC)); 
+//          sourceBuilder.sort(new FieldSortBuilder("news_date").order(SortOrder.DESC));  
+	        SearchRequest searchRequest = new SearchRequest("news");
+	        searchRequest.source(sourceBuilder);
+	        System.out.println("요청"+sourceBuilder);
+	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+	        System.out.println("응답"+searchResponse);
+	        JSONObject json = new JSONObject(searchResponse.toString());
+	        System.out.println(json);
+	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
+	    }
+		
+		//최신순
+		@GetMapping(value = "searchmatchparsesort")
+	    public ResponseEntity searchmatchparsesort(String id) throws IOException {
+	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_title", id);
+	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+	        sourceBuilder.query(matchQueryBuilder);
+	        sourceBuilder.from(0);
+	        sourceBuilder.size(10);
+            sourceBuilder.sort(new FieldSortBuilder("news_date").order(SortOrder.DESC));  
 	        SearchRequest searchRequest = new SearchRequest("news");
 	        searchRequest.source(sourceBuilder);
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
 	        JSONObject json = new JSONObject(searchResponse.toString());
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
+		}
+		
+		@GetMapping(value = "searchgroupmatchphrase")
+	    public ResponseEntity searchgroupmatchphrase(String id) throws IOException {
+	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_group", id);
+	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+	        sourceBuilder.query(matchQueryBuilder);
+	        sourceBuilder.from(0);
+	        sourceBuilder.size(10);
+	        sourceBuilder.sort(new FieldSortBuilder("news_date").order(SortOrder.DESC));
+	        SearchRequest searchRequest = new SearchRequest("news");
+	        searchRequest.source(sourceBuilder);
+	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+	        System.out.println(sourceBuilder);
+	        System.out.println(searchResponse);
+	        JSONObject json = new JSONObject(searchResponse.toString());
+	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 	    }
+		
+		@GetMapping(value = "searchmatchparsedate")
+	    public ResponseEntity searchmatchparsedate(String id, String id2) throws IOException {
+	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_title", id);
+	        Calendar cal = Calendar.getInstance();
+	        Date date = cal.getTime();
+	        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
+	        String now = new SimpleDateFormat("yyyy-MM-dd").format(date);
+	        int num = Integer.parseInt(id2);
+	        switch(num) {
+	        case 7 : 
+	        	cal.add(Calendar.DATE, -7);
+	        	date = cal.getTime();
+	        	dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
+	        	System.out.println(dateString);
+	        	break;
+	        	
+	        case 30:
+	        	cal.add(Calendar.MONTH, -1);
+	        	date = cal.getTime();
+	        	dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
+	        	System.out.println(dateString);
+	        	break;
+	        	
+	        case 90:
+	        	cal.add(Calendar.MONTH, -3);
+	        	date = cal.getTime();
+	        	dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
+	        	System.out.println(dateString);
+	        	break;
+	        	
+	        case 180:
+	        	cal.add(Calendar.MONTH, -6);
+	        	date = cal.getTime();
+	        	dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
+	        	System.out.println(dateString);
+	        	break;
+	        	
+	        case 365:
+	        	cal.add(Calendar.YEAR, -1);
+	        	date = cal.getTime();
+	        	dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
+	        	System.out.println(dateString);
+	        	break;
+	        }
+	        
+	        SearchRequest searchRequest = new SearchRequest("news");
+	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+	        sourceBuilder.query(matchQueryBuilder);
+	        sourceBuilder.from(0);
+	        sourceBuilder.size(10);
+            sourceBuilder.postFilter(QueryBuilders.rangeQuery("news_date").from(dateString).to(now)); //gt 24
+            sourceBuilder.sort(new FieldSortBuilder("news_date").order(SortOrder.DESC));
+	        searchRequest.source(sourceBuilder);
+	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+	        JSONObject json = new JSONObject(searchResponse.toString());
+	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
+		}
 		
 		@GetMapping(value = "searchworkdkeyword")
 	    public ResponseEntity searchworkdkeyword(String id) throws IOException {
@@ -223,7 +318,6 @@ public class ElasticSearchController {
 	        JSONObject json = new JSONObject(searchResponse.toString());
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 	    }
-		
 		
 		//대량의 document를 추가/수정/삭제할때는 BulkAPI를 사용한다함
 		@GetMapping(value = "bulkrequest")

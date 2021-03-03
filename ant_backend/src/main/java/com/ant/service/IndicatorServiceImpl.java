@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.ant.mapper.springboot.BoardMapper;
-import com.ant.mapper.springboot.IndicatorMapper;
-
-import com.ant.mapper.indicators.IndMapper;
+import com.ant.mapper.indicators.IndicatorMapper;
 
 import com.ant.mapper.springboot.UserMapper;
 import com.ant.vo.BoardVO;
@@ -27,14 +25,7 @@ public class IndicatorServiceImpl implements IndicatorService {
 
 	@Autowired
     IndicatorMapper IndicatorMapper;
-    
-	@Autowired
-	IndMapper IndMapper;
-
-    // 테스트
-	public List<TestVO> testInd(){
-		return IndMapper.testInd();
-	}
+  
     
 	//국외 환율 정보 리스트
 	public List<ExechangeRateVO> exeForeignList() {
@@ -93,7 +84,7 @@ public class IndicatorServiceImpl implements IndicatorService {
 		map.put("num", num);
 		return IndicatorMapper.indicators2(map);
 	}
-	
 
+	
 	
 }

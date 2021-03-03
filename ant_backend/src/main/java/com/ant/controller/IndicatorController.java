@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ant.mapper.springboot.BoardMapper;
-import com.ant.mapper.springboot.IndicatorMapper;
+import com.ant.mapper.indicators.IndicatorMapper;
 import com.ant.mapper.springboot.PaymentMapper;
 import com.ant.mapper.springboot.UserMapper;
 import com.ant.service.BoardServiceImpl;
@@ -40,12 +40,6 @@ public class IndicatorController {
     @Autowired
     IndicatorServiceImpl indicatorService;
   
-    // 테스트
-    @GetMapping("/testInd")
-	public List<TestVO> testInd(){
-		return indicatorService.testInd();
-	}
-    
     //국외 환율 정보 리스트
     @GetMapping("/exeForeign")
 	public List<ExechangeRateVO> exeForeignList(){

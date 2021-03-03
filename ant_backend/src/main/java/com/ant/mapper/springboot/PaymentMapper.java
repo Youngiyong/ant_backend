@@ -1,4 +1,4 @@
-package com.ant.mapper;
+package com.ant.mapper.springboot;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;

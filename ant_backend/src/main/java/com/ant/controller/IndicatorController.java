@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ant.mapper.BoardMapper;
-import com.ant.mapper.IndicatorMapper;
-import com.ant.mapper.PaymentMapper;
-import com.ant.mapper.UserMapper;
+import com.ant.mapper.springboot.BoardMapper;
+import com.ant.mapper.springboot.IndicatorMapper;
+import com.ant.mapper.springboot.PaymentMapper;
+import com.ant.mapper.springboot.UserMapper;
 import com.ant.service.BoardServiceImpl;
 import com.ant.service.IndicatorServiceImpl;
 import com.ant.service.PaymentServiceImpl;
@@ -26,6 +26,7 @@ import com.ant.vo.Indicator1VO;
 import com.ant.vo.Indicator2VO;
 import com.ant.vo.KakaoUserVO;
 import com.ant.vo.PaymentVO;
+import com.ant.vo.TestVO;
 import com.ant.vo.UserVO;
  
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -39,6 +40,12 @@ public class IndicatorController {
     @Autowired
     IndicatorServiceImpl indicatorService;
   
+    // 테스트
+    @GetMapping("/testInd")
+	public List<TestVO> testInd(){
+		return indicatorService.testInd();
+	}
+    
     //국외 환율 정보 리스트
     @GetMapping("/exeForeign")
 	public List<ExechangeRateVO> exeForeignList(){

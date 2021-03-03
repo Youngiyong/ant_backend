@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTDMapper3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.ant.mapper.CommentMapper">
+  <mapper namespace="com.ant.mapper.springboot.CommentMapper">
   
      <select id="commentList" resultType="com.ant.vo.CommentVO">
          SELECT comment.*, user.nickname as nickname FROM comment INNER JOIN user ON comment.userid = user.userid ORDER BY comment_createdata desc

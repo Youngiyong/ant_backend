@@ -5,10 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
-import com.ant.mapper.BoardMapper;
-import com.ant.mapper.IndicatorMapper;
-import com.ant.mapper.UserMapper;
+import com.ant.mapper.springboot.BoardMapper;
+import com.ant.mapper.springboot.IndicatorMapper;
+
+import com.ant.mapper.indicators.IndMapper;
+
+import com.ant.mapper.springboot.UserMapper;
 import com.ant.vo.BoardVO;
 import com.ant.vo.ExechangeRateKorVO;
 import com.ant.vo.ExechangeRateVO;
@@ -16,13 +20,22 @@ import com.ant.vo.Indicator1VO;
 import com.ant.vo.Indicator2VO;
 import com.ant.vo.KakaoUserVO;
 import com.ant.vo.PaymentVO;
+import com.ant.vo.TestVO;
 
 @Service("IndicatorService")
 public class IndicatorServiceImpl implements IndicatorService {
 
 	@Autowired
     IndicatorMapper IndicatorMapper;
+    
+	@Autowired
+	IndMapper IndMapper;
 
+    // 테스트
+	public List<TestVO> testInd(){
+		return IndMapper.testInd();
+	}
+    
 	//국외 환율 정보 리스트
 	public List<ExechangeRateVO> exeForeignList() {
 		System.out.println("국외 환율 정보 리스트-서비스");

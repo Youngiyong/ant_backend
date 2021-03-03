@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ant.mapper.BoardMapper;
-import com.ant.mapper.PaymentMapper;
-import com.ant.mapper.UserMapper;
+import com.ant.mapper.springboot.BoardMapper;
+import com.ant.mapper.springboot.PaymentMapper;
+import com.ant.mapper.springboot.UserMapper;
 import com.ant.vo.BoardVO;
 import com.ant.vo.KakaoUserVO;
 import com.ant.vo.PaymentVO;

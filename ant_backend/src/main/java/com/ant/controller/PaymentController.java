@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ant.mapper.BoardMapper;
-import com.ant.mapper.PaymentMapper;
-import com.ant.mapper.UserMapper;
+import com.ant.mapper.springboot.BoardMapper;
+import com.ant.mapper.springboot.PaymentMapper;
+import com.ant.mapper.springboot.UserMapper;
 import com.ant.service.BoardServiceImpl;
 import com.ant.service.PaymentServiceImpl;
 import com.ant.service.UserServiceImpl;

@@ -7,9 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ant.mapper.BoardMapper;
-import com.ant.mapper.CommentMapper;
-import com.ant.mapper.UserMapper;
+import com.ant.mapper.springboot.BoardMapper;
+import com.ant.mapper.springboot.CommentMapper;
+import com.ant.mapper.springboot.UserMapper;
 import com.ant.vo.BoardVO;
 import com.ant.vo.CommentVO;
 import com.ant.vo.KakaoUserVO;

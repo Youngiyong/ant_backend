@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTDMapper3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.ant.mapper.BoardMapper">
+  <mapper namespace="com.ant.mapper.springboot.BoardMapper">
   
      <select id="boardList" resultType="com.ant.vo.BoardVO">
          SELECT board.*, user.nickname as nickname FROM board INNER JOIN user ON board.userid = user.userid ORDER BY board_createdata desc

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ant.mapper.BoardMapper;
-import com.ant.mapper.UserMapper;
+import com.ant.mapper.springboot.BoardMapper;
+import com.ant.mapper.springboot.UserMapper;
 import com.ant.service.BoardServiceImpl;
 import com.ant.service.UserServiceImpl;
 import com.ant.vo.BoardVO;

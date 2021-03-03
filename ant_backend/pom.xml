@@ -35,11 +35,13 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
@@ -70,6 +72,30 @@
 		    <artifactId>elasticsearch-rest-high-level-client</artifactId>
 		    <version>7.6.2</version>
 		</dependency>
+		
+		<!-- DB -->
+		<dependency>
+  			<groupId>org.springframework.boot</groupId>
+  			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+		  <groupId>mysql</groupId>
+		  <artifactId>mysql-connector-java</artifactId>
+		  <scope>provided</scope>
+		</dependency>	
+		<!--
+		<dependency>
+		  <groupId>org.mybatis.spring.boot</groupId>
+		  <artifactId>mybatis-spring-boot-starter</artifactId>
+		  <version>2.0.1</version>
+		</dependency>
+		-->
+		<dependency>
+		  <groupId>org.springframework.boot</groupId>
+		  <artifactId>spring-boot-configuration-processor</artifactId>
+		  <optional>true</optional>
+		</dependency>
+		
 	</dependencies>
 
 	<build>

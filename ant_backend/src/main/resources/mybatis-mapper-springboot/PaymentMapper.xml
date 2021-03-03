@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTDMapper3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.ant.mapper.PaymentMapper">
+  <mapper namespace="com.ant.mapper.springboot.PaymentMapper">
   
    <insert id="insertPayment" >
 	insert into payment(userid, payment_date, payment_price) values(#{userId}, now(), 8900)

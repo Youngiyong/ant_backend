@@ -9,9 +9,14 @@ import com.ant.vo.Indicator1VO;
 import com.ant.vo.Indicator2VO;
 import com.ant.vo.KakaoUserVO;
 import com.ant.vo.PaymentVO;
+import com.ant.vo.TestVO;
 
 
 public interface IndicatorService {
+	
+	// 테스트
+	public List<TestVO> testInd();
+	
 	// 국외 환율 List 
 	public List<ExechangeRateVO> exeForeignList();
 	

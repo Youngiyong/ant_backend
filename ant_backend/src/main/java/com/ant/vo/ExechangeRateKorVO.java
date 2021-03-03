@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class ExechangeRateKorVO {
 	Date dates;
-    float rates;
+    float price;
     
 }

@@ -1,4 +1,4 @@
-package com.ant.mapper.springboot;
+package com.ant.mapper.indicators;
 
 import java.util.HashMap;
 import java.util.List;

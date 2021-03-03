@@ -6,33 +6,33 @@
   
   <!-- 국외 환율 정보 리스트 -->
   <select id="exeForeignList" resultType="com.ant.vo.ExechangeRateVO">
-  SELECT dates, exechange_Name, symbol, rates FROM exechangerate ORDER BY dates DESC, exechange_name ASC LIMIT 4
+  SELECT dates, exechange_Name, symbol, price FROM exechangerate ORDER BY dates DESC, exechange_name ASC LIMIT 4
   </select>
   
   <!-- 국내 환율 정보 리스트 -->
   <select id="exeKorList" resultType="com.ant.vo.ExechangeRateVO">
-  SELECT dates, rates FROM usdkrw ORDER BY dates DESC LIMIT 3
+  SELECT dates, price FROM usdkrw ORDER BY dates DESC LIMIT 3
   </select>
   
   
   <!-- 달러_유로_리스트_전체수치 -->
   <select id="labelDalAllList" resultType="com.ant.vo.ExechangeRateVO">
-  SELECT dates, exechange_name, symbol, rates FROM exechangerate WHERE symbol='EURUSD' order BY dates desc LIMIT 7
+  SELECT dates, exechange_name, symbol, price FROM exechangerate WHERE symbol='EURUSD' order BY dates desc LIMIT 7
   </select>
   
   <!-- 달러_유로_리스트_전체수치 1일 -->
   <select id="labelDalOneList" resultType="com.ant.vo.ExechangeRateVO">
-  SELECT dates, exechange_name, symbol, rates FROM exechangerate WHERE symbol='EURUSD' order BY dates desc LIMIT 1
+  SELECT dates, exechange_name, symbol, price FROM exechangerate WHERE symbol='EURUSD' order BY dates desc LIMIT 1
   </select>
   
   <!-- 차트-수치대입-국내 -->
   <select id="chartIndi" parameterType="int" resultType="com.ant.vo.ExechangeRateKorVO">
-  SELECT dates, rates FROM usdkrw ORDER BY dates desc LIMIT #{num}
+  SELECT dates, price FROM usdkrw ORDER BY dates desc LIMIT #{num}
   </select>
   
   <!-- 차트-수치대입-해외환율 -->
   <select id="chartIndiFor" parameterType="hashmap" resultType="com.ant.vo.ExechangeRateVO">
-  SELECT dates, exechange_name, symbol, rates FROM exechangerate  where symbol=#{symbol} ORDER BY dates desc LIMIT #{num}
+  SELECT dates, exechange_name, symbol, price FROM exechangerate  where symbol=#{symbol} ORDER BY dates desc LIMIT #{num}
   </select>
   
   <!-- 지표-유형1(국제금,WTI) -->

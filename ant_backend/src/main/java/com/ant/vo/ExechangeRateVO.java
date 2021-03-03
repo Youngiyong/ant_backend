@@ -8,6 +8,6 @@ public class ExechangeRateVO {
 	Date dates;
     String exechange_Name;
     String symbol;
-    float rates;
+    float price;
     
 }

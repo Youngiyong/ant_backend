@@ -10,7 +10,7 @@
   	</select>
   	
   	<select id="mainIndicatorCall" resultType="com.ant.vo.ChangedateVO" parameterType="string">
-  		SELECT * FROM ${tableName} ORDER BY dates DESC LIMIT 7
+  		SELECT * FROM ${tableName} ORDER BY dates DESC LIMIT 14
   	</select>
   	
 </mapper>

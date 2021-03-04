@@ -45,5 +45,10 @@
   SELECT dates, price, open, high, low, keyword FROM ${tableName}  ORDER BY dates desc LIMIT #{num}
   </select>
   
+    <!-- 상관관계 절대값으로 최상위값 표현 -->
+  <select id="corrAbs" parameterType="hashmap" resultType="com.ant.vo.CorrVO">
+  SELECT indicator, ${indi}, indiname FROM corr where ABS(${indi}) != 1 ORDER BY ABS(${indi}) DESC LIMIT ${num}
+  </select>
+  
   
 </mapper>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ant.vo.BoardVO;
+import com.ant.vo.CorrVO;
 import com.ant.vo.ExechangeRateKorVO;
 import com.ant.vo.ExechangeRateVO;
 import com.ant.vo.Indicator1VO;
@@ -40,4 +41,6 @@ public interface IndicatorMapper {
 	//지표-유형2(미10년,미2년,달러인덱스,비트코인)
 	List<Indicator2VO> indicators2(HashMap map);
  
+	//상관관계 절대값으로 최상위값 표현
+	List<CorrVO> corrAbs(HashMap map);
 }

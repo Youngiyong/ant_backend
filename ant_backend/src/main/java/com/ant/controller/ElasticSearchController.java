@@ -60,7 +60,7 @@ public class ElasticSearchController {
 		@Bean(destroyMethod = "close")
 		@Scope("prototype")//prototype : 어플리케이션에서 요청시 (getBean()) 마다 스프링이 새 인스턴스를 생성
 		public RestHighLevelClient restHighLevelClient(){
-		      return new RestHighLevelClient(RestClient.builder(new HttpHost("0.0.0.0",9200,"http")));
+		      return new RestHighLevelClient(RestClient.builder(new HttpHost("3.36.26.132",9200,"http")));
 		}
 		@GetMapping(value = "/create2")
 		public String create2() throws IOException {

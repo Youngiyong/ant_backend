@@ -3,6 +3,7 @@ package com.ant.service;
 import java.util.List;
 
 import com.ant.vo.BoardVO;
+import com.ant.vo.CorrVO;
 import com.ant.vo.ExechangeRateKorVO;
 import com.ant.vo.ExechangeRateVO;
 import com.ant.vo.Indicator1VO;
@@ -37,4 +38,7 @@ public interface IndicatorService {
 	
 	//지표-유형2(미10년,미2년,달러인덱스,비트코인)
 	public List<Indicator2VO> indicators2(String tableName, int num);
+	
+	//상관관계 절대값으로 최상위값 표현
+	public List<CorrVO> corrAbs(String indi, int num); 
 }

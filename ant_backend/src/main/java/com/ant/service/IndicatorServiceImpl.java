@@ -12,7 +12,6 @@ import com.ant.mapper.indicators.IndicatorMapper;
 
 import com.ant.mapper.springboot.UserMapper;
 import com.ant.vo.BoardVO;
-import com.ant.vo.CorrVO;
 import com.ant.vo.ExechangeRateKorVO;
 import com.ant.vo.ExechangeRateVO;
 import com.ant.vo.Indicator1VO;
@@ -84,15 +83,6 @@ public class IndicatorServiceImpl implements IndicatorService {
 		map.put("tableName", tableName);	
 		map.put("num", num);
 		return IndicatorMapper.indicators2(map);
-	}
-
-	//상관관계 절대값으로 최상위값 표현
-	public List<CorrVO> corrAbs(String indi, int num) {
-		System.out.println("상관관계 절대값으로 최상위값 표현");
-		HashMap map = new HashMap();
-		map.put("indi", indi);	
-		map.put("num", num);
-		return IndicatorMapper.corrAbs(map);
 	}
 
 	

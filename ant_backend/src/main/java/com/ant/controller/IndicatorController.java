@@ -20,6 +20,7 @@ import com.ant.service.IndicatorServiceImpl;
 import com.ant.service.PaymentServiceImpl;
 import com.ant.service.UserServiceImpl;
 import com.ant.vo.BoardVO;
+import com.ant.vo.CorrVO;
 import com.ant.vo.ExechangeRateKorVO;
 import com.ant.vo.ExechangeRateVO;
 import com.ant.vo.Indicator1VO;
@@ -96,5 +97,13 @@ public class IndicatorController {
 		System.out.println("지표-유형1(국제금,WTI)");
 		return indicatorService.indicators2(tableName, num);
 	}
+    
+    //상관관계 절대값으로 최상위값 표현
+    @GetMapping("/corrAbs/{indi}/{num}")
+	public List<CorrVO> corrAbs(@PathVariable String indi, @PathVariable int num){
+		System.out.println("지표-유형1(국제금,WTI)");
+		return indicatorService.corrAbs(indi, num);
+	}
+
     
 }

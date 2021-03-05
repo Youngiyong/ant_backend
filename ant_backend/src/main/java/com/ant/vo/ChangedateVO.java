@@ -8,4 +8,5 @@ public class ChangedateVO {
 	Date dates;
 	float price;
 	float changedate;
+	String tableName;
 }

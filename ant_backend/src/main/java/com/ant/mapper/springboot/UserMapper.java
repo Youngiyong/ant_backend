@@ -17,5 +17,7 @@ public interface UserMapper {
     public void kakaoinsertUser(KakaoUserVO kakaouser);
     public int deleteUser(int id);
     public int updateUser(KakaoUserVO user);
+    public int UserTotalCountGet();
+    public int UserSubCountGet();
     
 }

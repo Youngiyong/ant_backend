@@ -13,6 +13,13 @@
          SELECT * FROM user
      </select>
      
+     <select id="UserTotalCountGet" resultType="int">
+         SELECT count(*) FROM user
+     </select>
+     <select id="UserSubCountGet" resultType="int">
+         SELECT count(*) FROM user where subscripstat = 1
+     </select>
+     
      <select id="fetchUserByID" resultType="com.ant.vo.UserVO"
       parameterType="int">
          SELECT * FROM users

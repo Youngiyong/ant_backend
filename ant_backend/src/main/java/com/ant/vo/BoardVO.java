@@ -15,4 +15,5 @@ public class BoardVO {
     int board_LikeNum;
     
     String nickname;
+    int board_count;
 }

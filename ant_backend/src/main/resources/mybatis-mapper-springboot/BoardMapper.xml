@@ -5,13 +5,25 @@
   <mapper namespace="com.ant.mapper.springboot.BoardMapper">
   
      <select id="boardList" resultType="com.ant.vo.BoardVO">
-         SELECT board.*, user.nickname as nickname FROM board INNER JOIN user ON board.userid = user.userid ORDER BY board_createdata desc
+         SELECT b3.*, user.nickname as nickname FROM 
+		(SELECT b1.*,b2.board_count FROM board b1
+		LEFT JOIN (SELECT COUNT(*) board_count,board_id FROM comment WHERE board_id IN (SELECT board_id FROM board ) AND comment_hidden = 0 GROUP BY board_id) b2
+		ON b1.board_id = b2.board_id) b3
+		INNER JOIN user ON b3.userid = user.userid ORDER BY board_createdata desc
      </select>
      <select id="boardListLiked" resultType="com.ant.vo.BoardVO">
-		SELECT board.*, user.nickname as nickname FROM board INNER JOIN user ON board.userid = user.userid ORDER BY board_LikeNum desc
+		SELECT b3.*, user.nickname as nickname FROM 
+		(SELECT b1.*,b2.board_count FROM board b1
+		LEFT JOIN (SELECT COUNT(*) board_count,board_id FROM comment WHERE board_id IN (SELECT board_id FROM board ) AND comment_hidden = 0 GROUP BY board_id) b2
+		ON b1.board_id = b2.board_id) b3
+		 INNER JOIN user ON b3.userid = user.userid ORDER BY board_LikeNum desc
      </select>
      <select id="boardListGetSave" resultType="com.ant.vo.BoardVO">
-		SELECT board.*, user.nickname as nickname FROM board INNER JOIN user ON board.userid = user.userid ORDER BY board_LikeNum desc
+		SELECT b3.*, user.nickname as nickname FROM 
+		(SELECT b1.*,b2.board_count FROM board b1
+		LEFT JOIN (SELECT COUNT(*) board_count,board_id FROM comment WHERE board_id IN (SELECT board_id FROM board ) AND comment_hidden = 0 GROUP BY board_id) b2
+		ON b1.board_id = b2.board_id) b3
+		 INNER JOIN user ON b3.userid = user.userid ORDER BY board_LikeNum desc
      </select>
      <update id="BoardViewCount" parameterType="int">
          UPDATE board SET board_viewnum = board_viewnum + 1 WHERE board_id = #{boardid}
@@ -42,12 +54,19 @@
 		INSERT INTO usersavedboard(userid ,board_id)
 		 VALUE (#{userid},#{board_id})
       </insert>
+     <delete id="deleteSaveddUserBoard" parameterType="com.ant.vo.BoardVO">
+         DELETE FROM usersavedboard
+         WHERE userid = #{userid} and board_id = #{board_id}
+     </delete>
      <select id="fetchUserSavedBoardList" resultType="com.ant.vo.BoardVO" parameterType="int">
-         SELECT * FROM board
+			SELECT * FROM 
+			(SELECT b1.*,b2.board_count FROM board b1
+			LEFT JOIN (SELECT COUNT(*) board_count,board_id FROM comment WHERE board_id IN (SELECT board_id FROM board ) AND comment_hidden = 0 GROUP BY board_id) b2
+			ON b1.board_id = b2.board_id) b1
 			WHERE board_id IN
 			(SELECT board_id FROM usersavedboard WHERE userid = #{userid}) ORDER BY board_createdata desc
      </select>
-          <select id="fetchSavedUserBoardLiked" resultType="com.ant.vo.BoardVO" parameterType="int">
+          <select id="fetchSavedUserBoardLiked" resultType="com.ant.vo.BoardVO" parameterType="int">#{userid}
          SELECT * FROM board
 			WHERE board_id IN
 			(SELECT board_id FROM usersavedboard WHERE userid = #{userid}) ORDER BY board_LikeNum desc

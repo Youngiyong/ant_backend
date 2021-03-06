@@ -26,6 +26,9 @@ public interface BoardMapper {
     
     public List<String> fetchUserSavedBoardListCheck(int userid);
     public int addSaveddUserBoard(BoardVO board);
+    public int deleteSaveddUserBoard(BoardVO board);
+    
+    
     public List<BoardVO> fetchUserSavedBoardList(int userid);
     public List<BoardVO> fetchSavedUserBoardLiked(int userid);
     public int deleteBoard(int boardid);

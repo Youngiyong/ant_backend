@@ -1,5 +1,7 @@
 package com.ant.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,21 @@ public class UserServiceImpl implements UserService {
 	public int UserSubCountGet() throws Exception {
 		int subcount = userMapper.UserSubCountGet();
 		return subcount;
+	}
+	@Override
+	public int editUserLikedComment(String userid, String comment_id) throws Exception {
+		
+		String commentlist = userMapper.getUserComment(userid);
+		System.out.println("커맨드 : "+commentlist);
+//		List<List<String>> commentlisttemp = new ArrayList<List>(Arrays.asList(commentlist.split("/"))) ;
+//		System.out.println(commentlisttemp.size());
+//		System.out.println(commentlisttemp.get(0));
+//		System.out.println(commentlisttemp.toString());
+//		commentlisttemp.add(comment_id);
+//		
+//		System.out.println(commentlisttemp.toString());
+//		int result = userMapper.editUserLikedComment(userid,comment_id);
+		return 0;
 	}
 
 	

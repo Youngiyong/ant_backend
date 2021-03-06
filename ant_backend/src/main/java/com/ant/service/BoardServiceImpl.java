@@ -98,6 +98,14 @@ public class BoardServiceImpl implements BoardService {
 		return 0;
 	}
 	@Override
+	public int deleteSaveddUserBoard(BoardVO board) {
+		System.out.println("유저 저장한글 테이블에 게시판 삭제");	
+		boardMapper.deleteSaveddUserBoard(board);
+	
+		return 0;
+	}
+	
+	@Override
 	public List<BoardVO> fetchUserSavedBoardList(int userid) {
 		List<BoardVO> boardlist = boardMapper.fetchUserSavedBoardList(userid);
 		return boardlist;
@@ -112,6 +120,7 @@ public class BoardServiceImpl implements BoardService {
 		int result = boardMapper.deleteBoard(boardid);
 		return result;
 	}
+
 
 
 

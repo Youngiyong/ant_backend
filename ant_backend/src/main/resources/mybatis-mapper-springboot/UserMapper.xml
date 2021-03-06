@@ -42,5 +42,16 @@
          SET nickname = #{nickname}, email = #{email} 
          WHERE userid = #{userid}
      </update>
+     
+     <select id="getUserComment" parameterType = "string" resultType="string">
+         SELECT commentlist FROM user
+         WHERE userid = #{userid}
+     </select>
+     
+      <update id="editUserLikedComment" parameterType="com.ant.vo.KakaoUserVO">
+         UPDATE user
+         SET nickname = #{nickname}, email = #{email} 
+         WHERE userid = #{userid}
+     </update>
   
 </mapper>

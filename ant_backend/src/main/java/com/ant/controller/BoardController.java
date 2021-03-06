@@ -80,6 +80,14 @@ public class BoardController {
     	System.out.println("유저 저장한글 테이블에 게시판 저장");
         System.out.println(board);
     }
+    @DeleteMapping("/saved/{board_id}/{userid}")
+    void deleteSaveddUserBoard(@PathVariable int board_id,@PathVariable int userid) {
+    	BoardVO deletedboard = new BoardVO();
+    	deletedboard.setBoard_id(board_id);
+    	deletedboard.setUserid(String.valueOf(userid));  	
+    	boardService.deleteSaveddUserBoard(deletedboard);
+    	System.out.println("유저 저장한글 테이블에 게시판 삭제");
+    }
     
     
     @GetMapping("/{boardid}")

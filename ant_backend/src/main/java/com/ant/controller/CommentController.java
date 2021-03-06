@@ -68,11 +68,6 @@ public class CommentController {
     	int result = commentService.updateComment(comment);
 
     }
-//    @PostMapping
-//    void insertComment(@RequestBody BoardVO board) {
-//    	boardService.insertBoard(board);
-//    	System.out.println("게시판 추가 요청");
-//        System.out.println(board);
-//    }
+    
     
 }

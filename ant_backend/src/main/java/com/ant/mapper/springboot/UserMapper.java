@@ -19,5 +19,6 @@ public interface UserMapper {
     public int updateUser(KakaoUserVO user);
     public int UserTotalCountGet();
     public int UserSubCountGet();
-    
+    public String getUserComment(String userid);
+    public int editUserLikedComment(String userid, String comment_id);
 }

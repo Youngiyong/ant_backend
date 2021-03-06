@@ -87,6 +87,15 @@ public class UserController {
         
          userService.updateUser(updateUser); 
     }
-
+    
+    @PutMapping("/UserLikedComment/{userid}/{comment_id}")
+    public void editUserLikedComment(@PathVariable String userid, @PathVariable String comment_id) throws Exception {
+        System.out.println(userid);
+        System.out.println(comment_id);
+        userService.editUserLikedComment(userid,comment_id);
+//        System.out.println("유저 업데이트 => " + updateUser);
+        
+//         userService.updateUser(updateUser); 
+    }
     
 }

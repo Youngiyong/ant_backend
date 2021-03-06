@@ -9,7 +9,7 @@
      </select>
      
      <select id="fetchCommentsByBoardID" resultType="com.ant.vo.CommentVO" parameterType="int">
-         SELECT * FROM comment INNER JOIN user ON comment.userid = user.userid where comment.board_id = #{board_id}
+         SELECT * FROM comment INNER JOIN user ON comment.userid = user.userid where comment.board_id = #{board_id} AND comment_hidden = 0
      </select>
 
      <select id="fetchcommentByID" resultType="com.ant.vo.CommentVO" parameterType="int">

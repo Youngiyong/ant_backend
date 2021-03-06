@@ -41,6 +41,16 @@ public class UserServiceImpl implements UserService {
 		int result = userMapper.updateUser(vo);
 		return result;
 	}
+	@Override
+	public int UserTotalCountGet() throws Exception {
+		int totalcount = userMapper.UserTotalCountGet();
+		return totalcount;
+	}
+	@Override
+	public int UserSubCountGet() throws Exception {
+		int subcount = userMapper.UserSubCountGet();
+		return subcount;
+	}
 
 	
 }

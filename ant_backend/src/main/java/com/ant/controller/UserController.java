@@ -34,6 +34,18 @@ public class UserController {
     	List<KakaoUserVO> userList = userService.UserListGet();
         	return userList;
     }
+    @GetMapping("/totalcount")
+    public int UserTotalCountGet() throws Exception {
+    	System.out.println("전체 유저 수 요청");
+    	int TotalCount = userService.UserTotalCountGet();
+        	return TotalCount;
+    }
+    @GetMapping("/subcount")
+    public int UserSubCountGet() throws Exception {
+    	System.out.println("구독 유저 수 요청");
+    	int SubCount = userService.UserSubCountGet();
+        	return SubCount;
+    }
     @GetMapping("/{id}")
     public Object fetchUserByID(@PathVariable int id) throws Exception {
         System.out.println(id);

@@ -15,4 +15,5 @@ public interface UserService {
 	public int deleteUser(int id) throws Exception;
 	public int updateUser(KakaoUserVO vo) throws Exception;
 	public int editUserLikedComment(String userid,String comment_id) throws Exception;
+	public List<String> getUserLikedCommentList(String userid) throws Exception;
 }

@@ -98,4 +98,14 @@ public class UserController {
 //         userService.updateUser(updateUser); 
     }
     
+    @GetMapping("/UserLikedCommentList/{userid}")
+    public List<String> getUserLikedCommentList(@PathVariable String userid) throws Exception {
+    	System.out.println("유저 좋아요 댓글 리스트 가져오기");
+        System.out.println(userid);
+        
+        List<String> commentlist = userService.getUserLikedCommentList(userid);
+        
+        return commentlist;
+    }
+    
 }

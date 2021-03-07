@@ -12,4 +12,5 @@ public class KakaoUserVO {
     String userdate;
     int subscripstat;
     int managestat;
+    String commentlist;
 }

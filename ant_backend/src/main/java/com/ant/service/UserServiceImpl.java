@@ -58,15 +58,49 @@ public class UserServiceImpl implements UserService {
 		
 		String commentlist = userMapper.getUserComment(userid);
 		System.out.println("커맨드 : "+commentlist);
-//		List<List<String>> commentlisttemp = new ArrayList<List>(Arrays.asList(commentlist.split("/"))) ;
-//		System.out.println(commentlisttemp.size());
-//		System.out.println(commentlisttemp.get(0));
-//		System.out.println(commentlisttemp.toString());
-//		commentlisttemp.add(comment_id);
-//		
-//		System.out.println(commentlisttemp.toString());
+		List commentlisttemp = new ArrayList(Arrays.asList(commentlist.split(","))) ;
+		System.out.println("사이즈"+commentlisttemp.size());
+		System.out.println("첫번쨰"+commentlisttemp.get(0));
+		System.out.println("투스트링"+commentlisttemp.toString());
+		System.out.println("투스트링"+commentlisttemp.getClass().getName());
+		
+		
+		System.out.println("어레이안에있는지 테스트"+commentlisttemp.contains(comment_id));
+		
+		if(commentlisttemp.contains(comment_id)) { //이미 있으면 삭제
+			System.out.println("이미있다");
+			commentlisttemp.remove(commentlisttemp.indexOf(comment_id));
+		}else {   // 리스트에 없으면 
+			System.out.println("리스트에 없다.");
+			commentlisttemp.add(comment_id);	
+		}
+		
+		System.out.println("투스트링"+commentlisttemp.toString());
+		System.out.println("사이즈"+commentlisttemp.size());
+		String asdasdasd = String.valueOf(commentlisttemp);
+		System.out.println("그냥치기1"+asdasdasd);
+		String temptemp = asdasdasd.substring(1, asdasdasd.length()-1 );
+		System.out.println("그냥치기2"+temptemp.getClass().getName());
+		System.out.println("그냥치기3"+temptemp);
+		String temptemptemp = temptemp.replaceAll(" ", "");
+		System.out.println("그냥치기4" + temptemptemp);
+		System.out.println("그냥치기4" + temptemptemp.getClass().getName());
+		KakaoUserVO user = new KakaoUserVO();
+		user.setUserid(Integer.valueOf(userid));
+		user.setCommentlist(temptemptemp);
+		userMapper.editUserLikedCommentChange(user);
+		
+		
+		
 //		int result = userMapper.editUserLikedComment(userid,comment_id);
 		return 0;
+	}
+	@Override
+	public List<String> getUserLikedCommentList(String userid) throws Exception {
+		String commentlist = userMapper.getUserComment(userid);
+		List commentlisttemp = new ArrayList(Arrays.asList(commentlist.split(","))) ;
+		// TODO Auto-generated method stub
+		return commentlisttemp;
 	}
 
 	

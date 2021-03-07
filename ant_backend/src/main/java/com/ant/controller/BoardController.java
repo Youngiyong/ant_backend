@@ -142,7 +142,7 @@ public class BoardController {
     	
         System.out.println("좋아요 테이블 삭제 요청");
     }
-    @GetMapping("/like/{board_id}/{userid}")
+    @GetMapping("/{board_id}/{userid}/likecheck")
     public String fetchUserlikeBoard(@PathVariable int board_id,@PathVariable int userid) throws Exception  {
         System.out.println("좋아요 테이블 체크 요청");
         int result = boardService.fetchUserlikeBoard(board_id,userid);

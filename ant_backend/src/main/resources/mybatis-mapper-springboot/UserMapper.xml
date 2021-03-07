@@ -53,5 +53,10 @@
          SET nickname = #{nickname}, email = #{email} 
          WHERE userid = #{userid}
      </update>
+     <update id="editUserLikedCommentChange" parameterType="com.ant.vo.KakaoUserVO">
+         UPDATE user
+         SET commentlist = #{commentlist}
+         WHERE userid = #{userid}
+     </update>
   
 </mapper>

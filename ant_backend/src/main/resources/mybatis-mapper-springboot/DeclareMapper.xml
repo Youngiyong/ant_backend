@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTDMapper3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.ant.mapper.springboot.DeclareMapper">
+  
+      <insert id="insertDeclare" parameterType="com.ant.vo.DeclaredVO">
+		INSERT INTO declared(
+			<if test='board_id==0'>
+				comment_id,
+			</if>
+			<if test='comment_id==0'>
+				board_id,
+			</if>
+		     declared_type)
+ 		VALUE (
+			<if test='board_id==0'>
+				#{comment_id},
+			</if>
+			<if test='comment_id==0'>
+				#{board_id},
+			</if>
+ 		#{declared_type})
+      </insert>
+
+</mapper>

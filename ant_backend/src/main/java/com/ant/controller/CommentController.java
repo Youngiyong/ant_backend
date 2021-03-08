@@ -69,5 +69,9 @@ public class CommentController {
 
     }
     
-    
+    @PostMapping
+    public void insertComment(@RequestBody CommentVO comment) throws Exception {
+    	System.out.println("댓글 등록 요청");
+    	commentService.insertComment(comment);
+    }
 }

@@ -26,4 +26,8 @@
          DELETE FROM comment
          WHERE comment_id = #{comment_id}
      </delete>
+     <insert id="insertComment" parameterType="com.ant.vo.CommentVO">
+		INSERT INTO comment( board_id,userid,comment_content)
+ 		VALUE (#{board_id},#{userid},#{comment_content})
+      </insert>
 </mapper>

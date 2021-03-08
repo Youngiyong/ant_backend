@@ -44,14 +44,14 @@ public class CommentServiceImpl implements CommentService {
 		return commentMapper.updateComment(comment);
 	}
 
-//
-//	@Override
-//	public int insertComment(CommentVO comment) {
-//		// TODO Auto-generated method stub
-//		System.out.println("유저 게시판 추가 요청 / 서비스 ");
-//		return 0;
-//	}
-//
+
+	@Override
+	public int insertComment(CommentVO comment) {
+		// TODO Auto-generated method stub
+		System.out.println("댓글 등록 요청");
+		return commentMapper.insertComment(comment);
+	}
+
 	@Override
 	public int deleteComment(int commentid) {
 		int result = commentMapper.deleteComment(commentid);

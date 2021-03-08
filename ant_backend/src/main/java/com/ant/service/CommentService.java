@@ -12,6 +12,6 @@ public interface CommentService {
 	public List<CommentVO> fetchCommentsByBoardID(int boardid) throws Exception;
 	public CommentVO fetchcommentByID(int commentid) throws Exception;
 	public int updateComment(CommentVO comment);
-//	public int insertComment(CommentVO comment);
+	public int insertComment(CommentVO comment);
 	public int deleteComment(int commentid);
 }

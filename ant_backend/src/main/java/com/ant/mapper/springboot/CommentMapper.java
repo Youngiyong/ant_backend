@@ -18,7 +18,7 @@ public interface CommentMapper {
     public CommentVO fetchcommentByID(int commentid);
     
     public int updateComment(CommentVO comment);
-
+    public int insertComment(CommentVO comment);
     public int deleteComment(int commentid);
     
 }

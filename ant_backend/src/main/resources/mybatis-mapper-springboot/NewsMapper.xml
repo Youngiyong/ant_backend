@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTDMapper3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.ant.mapper.springboot.NewsMapper">
+  
+  <select id="selectByNewsId" resultType="com.ant.vo.NewsVO"
+      parameterType="string">
+         SELECT * FROM news
+         WHERE news_id = #{newsId}
+  </select>
+  
+  </mapper>

@@ -28,12 +28,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.text.SimpleDateFormat;
@@ -56,12 +60,12 @@ public class ElasticSearchController {
 		//RestHighLevelClient사용후 반드 Close를 해야된다고 필히 명시가 되어 있었고
 		//그에 따른 Spring에서 Bean 어노테이션에 destroymethod 속성을 사용해서 자원을 해제 할 수 있음
 		
-		
 		@Bean(destroyMethod = "close")
 		@Scope("prototype")//prototype : 어플리케이션에서 요청시 (getBean()) 마다 스프링이 새 인스턴스를 생성
 		public RestHighLevelClient restHighLevelClient(){
 		      return new RestHighLevelClient(RestClient.builder(new HttpHost("0.0.0.0",9200,"http")));
 		}
+		
 		@GetMapping(value = "/create2")
 		public String create2() throws IOException {
 			CreateIndexRequest request = new CreateIndexRequest("news");
@@ -164,7 +168,7 @@ public class ElasticSearchController {
 		//GetMapping은 RequestMapping(value="", method = RequestMethod.Get)을 대신 하는 코드 스프링 4.3버전 이후로 나왔다고함
 		@GetMapping(value = "searchfuzzy")
 	    public ResponseEntity searchfuzzy(String id) throws IOException {
-	        QueryBuilder matchQueryBuilder = QueryBuilders.fuzzyQuery("news_title", id);
+	        QueryBuilder matchQueryBuilder = QueryBuilders.fuzzyQuery("news_elastic", id);
 	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 	        sourceBuilder.query(matchQueryBuilder);
 	        sourceBuilder.from(0);
@@ -175,9 +179,32 @@ public class ElasticSearchController {
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 	    }
 		
+		@PostMapping(value = "searchnewskeyword")
+	    public ResponseEntity searchnewskeyword(@RequestBody List<String> hits2) throws IOException {
+			System.out.println(hits2.size());
+			System.out.println(hits2);
+			
+			for(int i=0; i<hits2.size(); i++) {
+				
+			}
+			
+//	        QueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("news_id", id);
+//	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+//	        sourceBuilder.query(matchQueryBuilder);
+//	        sourceBuilder.from(0);
+//	        sourceBuilder.size(10);
+	        SearchRequest searchRequest = new SearchRequest("news_keyword");
+//	        searchRequest.source(sourceBuilder);
+//	        System.out.println(sourceBuilder);
+	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+	        JSONObject json = new JSONObject(searchResponse.toString());
+	        System.out.println(json);
+	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
+	    }
+		
 		@GetMapping(value = "searchprefix")
 	    public ResponseEntity searchprefix(String id) throws IOException {
-	        QueryBuilder matchQueryBuilder = QueryBuilders.prefixQuery("news_title", id);
+	        QueryBuilder matchQueryBuilder = QueryBuilders.prefixQuery("news_elastic", id);
 	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 	        sourceBuilder.query(matchQueryBuilder);
 	        sourceBuilder.from(0);
@@ -197,7 +224,7 @@ public class ElasticSearchController {
 		//예) 모든 단어가 정확한 위치에 있어야 매치된다.
 		@GetMapping(value = "searchmatchparse")
 	    public ResponseEntity searchmatchparse(String id) throws IOException {
-	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_title", id);
+	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_elastic", id);
 	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 	        sourceBuilder.query(matchQueryBuilder);
 	        sourceBuilder.from(0);
@@ -206,18 +233,15 @@ public class ElasticSearchController {
 //          sourceBuilder.sort(new FieldSortBuilder("news_date").order(SortOrder.DESC));  
 	        SearchRequest searchRequest = new SearchRequest("news");
 	        searchRequest.source(sourceBuilder);
-	        System.out.println("요청"+sourceBuilder);
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
-	        System.out.println("응답"+searchResponse);
 	        JSONObject json = new JSONObject(searchResponse.toString());
-	        System.out.println(json);
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 	    }
 		
 		//최신순
 		@GetMapping(value = "searchmatchparsesort")
 	    public ResponseEntity searchmatchparsesort(String id) throws IOException {
-	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_title", id);
+	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_elastic", id);
 	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 	        sourceBuilder.query(matchQueryBuilder);
 	        sourceBuilder.from(0);
@@ -249,7 +273,7 @@ public class ElasticSearchController {
 		
 		@GetMapping(value = "searchmatchparsedate")
 	    public ResponseEntity searchmatchparsedate(String id, String id2) throws IOException {
-	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_title", id);
+	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_elastic", id);
 	        Calendar cal = Calendar.getInstance();
 	        Date date = cal.getTime();
 	        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);

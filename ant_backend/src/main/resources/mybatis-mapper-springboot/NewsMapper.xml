@@ -12,8 +12,10 @@
   
   <select id="selectKeywordByNewsId" resultType="com.ant.vo.NewsVO"
       parameterType="string">
-         SELECT news_id, keyword FROM news_keyword 
-         WHERE news_id = #{newsId} LIMIT 3
+         SELECT news_id, keyword, pmi FROM news_keyword 
+         WHERE news_id = #{newsId} 
+         ORDER BY pmi desc
+         LIMIT 3
   </select>
   
   </mapper>

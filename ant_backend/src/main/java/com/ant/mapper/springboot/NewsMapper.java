@@ -8,4 +8,6 @@ public interface NewsMapper {
 	
 	public List<NewsVO> selectByNewsId(String newsId);
 	
+	public List<NewsVO> selectKeywordByNewsId(String newsId);
+	
 }

@@ -18,4 +18,8 @@ public class NewsServiceImpl {
 		return NewsMapper.selectByNewsId(newsId);
 	}
 	
+	public List<NewsVO> selectKeywordByNewsId(String newsId) {
+		return NewsMapper.selectKeywordByNewsId(newsId);
+	}
+	
 }

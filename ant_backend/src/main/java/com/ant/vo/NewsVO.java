@@ -12,4 +12,6 @@ public class NewsVO {
 	String news_url;
 	String news_source;
 	String news_group;
+	
+	String keyword; // 키워드 받아오기
 }

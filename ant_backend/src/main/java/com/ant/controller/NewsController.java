@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ant.mapper.springboot.NewsMapper;
@@ -32,10 +35,31 @@ public class NewsController {
     @Autowired
     NewsServiceImpl NewsService;
 	
-	// 메인화면 경제 지표 순위 순 각 테이블 최근 일자 데이터
+	// 뉴스 상세화면
     @GetMapping("/{newsId}")
 	public List<NewsVO> selectByNewsId(@PathVariable String newsId){
 		return NewsService.selectByNewsId(newsId);
+	}
+    
+    // 뉴스 검색결과 키워드
+    @GetMapping("/keywords/{searchResult}")
+	public ArrayList<List<NewsVO>> selectKeywordByNewsId(@PathVariable String searchResult){
+
+    	System.out.println("키워드");
+    	System.out.println(searchResult);
+    	
+    	String[] temp = searchResult.split(",");
+    	
+    	ArrayList<List<NewsVO>> result = new ArrayList<List<NewsVO>>();
+    	
+    	for (int i=0; i<temp.length; i++) {
+    		List<NewsVO> tempKeywords = NewsService.selectKeywordByNewsId(temp[i]);
+        	result.add(tempKeywords);
+    	}
+    	
+    	System.out.println(result);
+    	
+    	return result;
 	}
 	
 }

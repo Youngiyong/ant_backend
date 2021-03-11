@@ -91,6 +91,7 @@ public class ElasticSearchController {
 			CreateIndexResponse indexResponse = client.indices().create(request, RequestOptions.DEFAULT);
 			return "created2";
 		}
+		
 		//index 생성시 mapping의 설정한 형식으로 생성됨
 		@GetMapping(value = "/create")
 		public String ping() throws IOException {
@@ -254,6 +255,28 @@ public class ElasticSearchController {
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 		}
 		
+	    @GetMapping(value = "searchtodaynews")
+	    public ResponseEntity searchtodaynews() throws IOException {
+	        Calendar cal = Calendar.getInstance();
+	        Date date = cal.getTime();
+	        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
+	        QueryBuilder matchQueryBuilder = QueryBuilders.matchAllQuery();
+	        System.out.println(dateString);
+	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+	        sourceBuilder.query(matchQueryBuilder);
+	        sourceBuilder.from(0);
+	        sourceBuilder.size(9);
+	        sourceBuilder.sort(new FieldSortBuilder("news_date").order(SortOrder.DESC));
+	        System.out.println(sourceBuilder);
+	        SearchRequest searchRequest = new SearchRequest("news");
+	        searchRequest.source(sourceBuilder);
+	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+	        JSONObject json = new JSONObject(searchResponse.toString());
+	        System.out.println(json);
+	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
+	    }
+		
+		
 		@GetMapping(value = "searchgroupmatchphrase")
 	    public ResponseEntity searchgroupmatchphrase(String id) throws IOException {
 	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_group", id);
@@ -284,35 +307,30 @@ public class ElasticSearchController {
 	        	cal.add(Calendar.DATE, -7);
 	        	date = cal.getTime();
 	        	dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
-	        	System.out.println(dateString);
 	        	break;
 	        	
 	        case 30:
 	        	cal.add(Calendar.MONTH, -1);
 	        	date = cal.getTime();
 	        	dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
-	        	System.out.println(dateString);
 	        	break;
 	        	
 	        case 90:
 	        	cal.add(Calendar.MONTH, -3);
 	        	date = cal.getTime();
 	        	dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
-	        	System.out.println(dateString);
 	        	break;
 	        	
 	        case 180:
 	        	cal.add(Calendar.MONTH, -6);
 	        	date = cal.getTime();
 	        	dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
-	        	System.out.println(dateString);
 	        	break;
 	        	
 	        case 365:
 	        	cal.add(Calendar.YEAR, -1);
 	        	date = cal.getTime();
 	        	dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
-	        	System.out.println(dateString);
 	        	break;
 	        }
 	        

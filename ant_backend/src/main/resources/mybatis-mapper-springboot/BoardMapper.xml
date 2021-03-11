@@ -25,6 +25,12 @@
 		ON b1.board_id = b2.board_id) b3
 		 INNER JOIN user ON b3.userid = user.userid ORDER BY board_LikeNum desc
      </select>
+     
+     <insert id="insertBoard" parameterType="com.ant.vo.BoardVO">
+		INSERT INTO board(userid ,board_title,board_content)
+		 VALUE (#{userid},#{board_title},#{board_content})
+      </insert>
+     
      <update id="BoardViewCount" parameterType="int">
          UPDATE board SET board_viewnum = board_viewnum + 1 WHERE board_id = #{boardid}
      </update>

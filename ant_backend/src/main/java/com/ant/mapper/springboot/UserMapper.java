@@ -22,4 +22,13 @@ public interface UserMapper {
     public String getUserComment(String userid);
     public int editUserLikedComment(String userid, String comment_id);
     public int editUserLikedCommentChange(KakaoUserVO user);
+    
+    //마이페이지-회원정보 보기
+	public KakaoUserVO profileShow(int id);
+	
+	//마이페이지-회원정보 수정
+	public void profileEdit(KakaoUserVO updateUser);
+	
+	//컨트롤러-마이페이지-나의 게시글
+	public List<BoardVO> boardShow(int id);
 }

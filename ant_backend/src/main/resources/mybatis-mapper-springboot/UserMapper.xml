@@ -58,5 +58,29 @@
          SET commentlist = #{commentlist}
          WHERE userid = #{userid}
      </update>
+     
+     <!-- 마이페이지-회원정보 보기 -->
+     <select id="profileShow" resultType="com.ant.vo.KakaoUserVO"
+		parameterType="int">
+		SELECT *
+		FROM user WHERE userid = #{id}
+		</select>
+	
+	<!-- 마이페이지-회원정보 수정 -->
+	<update id="profileEdit" parameterType="com.ant.vo.KakaoUserVO">
+	UPDATE user
+	SET
+	pass = #{pass},
+	email = #{email},
+	nickname = #{nickname},
+	phone = #{phone}
+	WHERE userid = #{userid}
+	</update>
+	
+	<!-- 컨트롤러-마이페이지-나의 게시글 -->
+  	<select id="boardShow" parameterType="int" resultType="com.ant.vo.BoardVO">
+  	SELECT board_id, userid, board_title, board_createdata FROM board where userid=#{userid} ORDER BY board_createdata desc LIMIT 4
+  	</select>
+     
   
 </mapper>

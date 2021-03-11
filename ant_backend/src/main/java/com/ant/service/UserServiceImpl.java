@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ant.mapper.springboot.UserMapper;
+import com.ant.vo.BoardVO;
 import com.ant.vo.KakaoUserVO;
 
 
@@ -101,6 +102,22 @@ public class UserServiceImpl implements UserService {
 		List commentlisttemp = new ArrayList(Arrays.asList(commentlist.split(","))) ;
 		// TODO Auto-generated method stub
 		return commentlisttemp;
+	}
+	
+	//마이페이지-회원정보보기
+	public KakaoUserVO profileShow(int id) {
+		System.out.println("마이페이지-회원정보보기");
+		return userMapper.profileShow(id);
+	}
+	
+	//컨트롤러-마이페이지-회원정보수정
+	public void profileEdit(KakaoUserVO updateUser) {
+		userMapper.profileEdit(updateUser);	
+	}
+	
+	//컨트롤러-마이페이지-나의 게시글
+	public List<BoardVO> boardShow(int id) {
+		return userMapper.boardShow(id);
 	}
 
 	

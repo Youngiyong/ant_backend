@@ -36,7 +36,7 @@ public class BoardController {
     public List<BoardVO> BoardListGet() throws Exception {
     	System.out.println("전체 최신순 게시물 요청");
     	List<BoardVO> boardList = boardService.boardListGet();
-    	System.out.println(boardList);
+//    	System.out.println(boardList);
         	return boardList;
     }
     @DeleteMapping("/{boardid}")
@@ -107,8 +107,8 @@ public class BoardController {
     @PutMapping("/{boardid}")
     public void updateBoard(@PathVariable int boardid, @RequestBody BoardVO board) {
         System.out.println("게시판 수정요청 ");
-    	System.out.println(boardid);
-    	System.out.println(board);
+//    	System.out.println(boardid);
+//    	System.out.println(board);
     	int result = boardService.updateBoard(board);
 //        UserVO updateUser = user;
 //        System.out.println("유저 업데이트 => " + updateUser);
@@ -124,13 +124,13 @@ public class BoardController {
     void insertBoard(@RequestBody BoardVO board) {
     	boardService.insertBoard(board);
     	System.out.println("게시판 추가 요청");
-        System.out.println(board);
+//        System.out.println(board);
     }
     @PostMapping("/like")
     void insertUserlikeBoard(@RequestBody BoardVO board) {
     	boardService.insertUserLikedBoard(board);
     	System.out.println("좋아요 테이블 요청");
-        System.out.println(board);
+//        System.out.println(board);
     }
 
     @DeleteMapping("/like/{board_id}/{userid}")

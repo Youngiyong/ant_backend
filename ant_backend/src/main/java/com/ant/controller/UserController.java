@@ -108,4 +108,32 @@ public class UserController {
         return commentlist;
     }
     
+    //컨트롤러-마이페이지-회원정보보기
+    @GetMapping("/profile/{id}")
+	public KakaoUserVO profileShow(@PathVariable int id) {
+		System.out.println("컨트롤러-마이페이지-회원정보보기" );
+		KakaoUserVO fetchUser = userService.profileShow(id);
+		return fetchUser;
+	}
+    
+  //컨트롤러-마이페이지-회원정보수정
+    @PutMapping("/profile/{id}")
+	public void profileEdit(@PathVariable int id, @RequestBody KakaoUserVO user) {
+    	KakaoUserVO updateUser = user;
+		System.out.println("마이페이지 유저 업데이트 ==>" + updateUser);
+		
+		updateUser.setNickname(user.getNickname());
+		updateUser.setEmail(user.getEmail());
+		updateUser.setPhone(user.getPhone());
+		updateUser.setPass(user.getPass());
+		
+		userService.profileEdit(updateUser);
+	}
+    
+    //컨트롤러-마이페이지-나의 게시글
+    @GetMapping("/board/{id}")
+	public List<BoardVO> boardShow(@PathVariable int id) {
+		System.out.println("컨트롤러-내가 쓴 게시글" );
+		return userService.boardShow(id);
+	}
 }

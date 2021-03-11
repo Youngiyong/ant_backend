@@ -39,7 +39,7 @@
      </select>
      <update id="updateBoard" parameterType="com.ant.vo.BoardVO">
          UPDATE board
-         SET board_title = #{board_title}, board_content = #{board_content}, board_hidden = #{board_hidden}, board_LikeNum = #{board_LikeNum} 
+         SET board_title = #{board_title}, board_content = #{board_content}, board_hidden = #{board_hidden}, board_LikeNum = #{board_LikeNum},board_modifydata = current_timestamp()
          WHERE board_id = #{board_id}
      </update>
      <insert id="addUserLikeBoard" parameterType="com.ant.vo.BoardVO">

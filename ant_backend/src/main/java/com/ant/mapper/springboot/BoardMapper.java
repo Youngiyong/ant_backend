@@ -16,6 +16,8 @@ public interface BoardMapper {
     public List<BoardVO> boardListLiked();
     public List<BoardVO> boardListGetSave();
     
+    public int insertBoard(BoardVO board);
+    
     public void BoardViewCount(int id);
     public BoardVO fetchBoardByID(int id);
     public int updateBoard(BoardVO board);

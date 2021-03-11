@@ -65,7 +65,7 @@ public class BoardServiceImpl implements BoardService {
 	public int insertBoard(BoardVO board) {
 		// TODO Auto-generated method stub
 		System.out.println("유저 게시판 추가 요청 / 서비스 ");
-		return 0;
+		return boardMapper.insertBoard(board);
 	}
 
 	@Override

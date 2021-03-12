@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ant.mapper.indicators.IndicatorMapper;
 import com.ant.service.MainServiceImpl;
 import com.ant.vo.ChangedateVO;
 import com.ant.vo.IndicatorTableVO;
@@ -26,9 +25,6 @@ import com.ant.vo.IndicatorTableVO;
 @RestController
 @RequestMapping("/main")
 public class MainController {
-
-	@Autowired
-	IndicatorMapper indicatorMapper;
 
 	@Autowired
 	MainServiceImpl MainService;

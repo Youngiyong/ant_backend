@@ -4,6 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ant.mapper.ko.StockMapper">
 
-	
+	<select id="selectByStockId" resultType="com.ant.vo.StockListVO" parameterType="string">
+  		SELECT * FROM list WHERE code = ${stockId}
+  	</select>
   	
 </mapper>

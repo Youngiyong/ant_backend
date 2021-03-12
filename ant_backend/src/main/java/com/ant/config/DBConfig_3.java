@@ -33,7 +33,7 @@ public class DBConfig_3 {
 	public SqlSessionFactory sqlSessionFactory(@Qualifier("db3DataSource") DataSource db3DataSource, ApplicationContext applicationContext) throws Exception{
 		final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		sessionFactory.setDataSource(db3DataSource);
-		sessionFactory.setMapperLocations(applicationContext.getResources("classpath:mybatis-mapper-springboot/*.xml")); //쿼리작성용 mapper.xml위치 설정.
+		sessionFactory.setMapperLocations(applicationContext.getResources("classpath:mybatis-mapper-ko/*.xml")); //쿼리작성용 mapper.xml위치 설정.
 		return sessionFactory.getObject();
 	}
 	

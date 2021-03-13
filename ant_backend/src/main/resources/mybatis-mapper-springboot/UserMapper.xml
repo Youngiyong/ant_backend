@@ -70,8 +70,6 @@
 	<update id="profileEdit" parameterType="com.ant.vo.KakaoUserVO">
 	UPDATE user
 	SET
-	pass = #{pass},
-	email = #{email},
 	nickname = #{nickname},
 	phone = #{phone}
 	WHERE userid = #{userid}
@@ -82,5 +80,12 @@
   	SELECT board_id, userid, board_title, board_createdata FROM board where userid=#{userid} ORDER BY board_createdata desc LIMIT 4
   	</select>
      
+     <!-- 마이페이지-비밀번호 수정 -->
+     <update id="passwordEdit" parameterType="com.ant.vo.KakaoUserVO">
+	UPDATE user
+	SET
+	pass = #{pass}
+	WHERE userid = #{userid}
+	</update>
   
 </mapper>

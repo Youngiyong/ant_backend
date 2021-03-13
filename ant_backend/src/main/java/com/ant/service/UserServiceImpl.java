@@ -119,6 +119,11 @@ public class UserServiceImpl implements UserService {
 	public List<BoardVO> boardShow(int id) {
 		return userMapper.boardShow(id);
 	}
+	
+	//컨트롤러-마이페이지-비밀번호수정
+	public void passwordEdit(KakaoUserVO updateUser) {
+		userMapper.passwordEdit(updateUser);	
+	}
 
 	
 }

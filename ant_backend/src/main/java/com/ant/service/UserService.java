@@ -25,4 +25,7 @@ public interface UserService {
 	
 	//컨트롤러-마이페이지-나의 게시글
 	public List<BoardVO> boardShow(int id);
+	
+	//컨트롤러-마이페이지-비밀번호 수정
+	public void passwordEdit(KakaoUserVO updateUser);
 }

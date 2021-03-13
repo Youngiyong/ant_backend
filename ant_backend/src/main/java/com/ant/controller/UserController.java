@@ -123,11 +123,20 @@ public class UserController {
 		System.out.println("마이페이지 유저 업데이트 ==>" + updateUser);
 		
 		updateUser.setNickname(user.getNickname());
-		updateUser.setEmail(user.getEmail());
 		updateUser.setPhone(user.getPhone());
+
+		userService.profileEdit(updateUser);
+	}
+    
+    //컨트롤러-마이페이지-비밀번호수정
+    @PutMapping("/password/{id}")
+	public void passwordEdit(@PathVariable int id, @RequestBody KakaoUserVO user) {
+    	KakaoUserVO updateUser = user;
+		System.out.println("마이페이지 비밀번호 업데이트 ==>" + updateUser);
+		
 		updateUser.setPass(user.getPass());
 		
-		userService.profileEdit(updateUser);
+		userService.passwordEdit(updateUser);
 	}
     
     //컨트롤러-마이페이지-나의 게시글

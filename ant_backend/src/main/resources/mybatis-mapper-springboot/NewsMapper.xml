@@ -18,4 +18,15 @@
          LIMIT 3
   </select>
   
+  <select id="selectKeywordByUserId" resultType="com.ant.vo.UserVO" 
+  	   parameterType="int">
+  		SELECT keyword FROM user
+  		WHERE userid = #{id}
+  </select>
+  
+  <update id="updateKeywordByUserId" parameterType="com.ant.vo.UserVO">
+  		UPDATE user SET keyword = #{keyword}
+  		WHERE userid = #{id}
+  </update>
+  
   </mapper>

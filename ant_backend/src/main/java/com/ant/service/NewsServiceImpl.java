@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ant.mapper.springboot.NewsMapper;
 import com.ant.vo.NewsVO;
+import com.ant.vo.UserVO;
 
 @Service("NewsService")
 public class NewsServiceImpl {
@@ -22,4 +23,11 @@ public class NewsServiceImpl {
 		return NewsMapper.selectKeywordByNewsId(newsId);
 	}
 	
+	public UserVO selectKeywordByUserId(int userId){
+		return NewsMapper.selectKeywordByUserId(userId);
+	}
+	
+	public void updateKeywordByUserId(UserVO vo) {
+		NewsMapper.updateKeywordByUserId(vo);
+	}
 }

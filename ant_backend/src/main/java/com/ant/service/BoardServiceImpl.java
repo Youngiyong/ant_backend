@@ -25,6 +25,11 @@ public class BoardServiceImpl implements BoardService {
 		return boardlist;
 	}
 	@Override
+	public List<BoardVO> fetchTopMainBoards() throws Exception {
+		List<BoardVO> boardlist = boardMapper.fetchTopMainBoards();
+		return boardlist;
+	}
+	@Override
 	public List<BoardVO> boardListGetLiked() throws Exception {
 		List<BoardVO> boardlist = boardMapper.boardListLiked();
 		return boardlist;

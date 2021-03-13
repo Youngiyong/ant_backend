@@ -39,6 +39,13 @@ public class BoardController {
 //    	System.out.println(boardList);
         	return boardList;
     }
+    @GetMapping("/fetchtopmainboards")
+    public List<BoardVO> fetchTopMainBoards() throws Exception {
+    	System.out.println("조회수,좋아요 최근7일중 가장높은 게시물 두 가지 요청");
+    	List<BoardVO> boardList = boardService.fetchTopMainBoards();
+//    	System.out.println(boardList);
+        	return boardList;
+    }
     @DeleteMapping("/{boardid}")
     public void deleteBoard(@PathVariable int boardid) {
     	boardService.deleteBoard(boardid);

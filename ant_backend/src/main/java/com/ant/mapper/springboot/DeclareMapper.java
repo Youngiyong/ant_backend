@@ -22,5 +22,6 @@ public interface DeclareMapper {
 //
 //    public int deleteComment(int commentid);
 	  public int insertDeclare(DeclaredVO comment);
+	  public List<DeclaredVO> fetchDeclaredByID(String userid);
     
 }

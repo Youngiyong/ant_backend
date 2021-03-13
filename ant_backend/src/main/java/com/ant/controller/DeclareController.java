@@ -43,6 +43,12 @@ public class DeclareController {
     	DeclareService.insertDeclare(declare);
 
     }
+    @GetMapping("/{userid}")
+    public List<DeclaredVO> fetchDeclaredByID(@PathVariable String userid) throws Exception {
+    	System.out.println("유저가 신고한 데이터 요청");
+		List<DeclaredVO> declaredlist = DeclareService.fetchDeclaredByID(userid);
+        return declaredlist;
+    }
     
     
 }

@@ -16,7 +16,7 @@ public interface UserService {
 	public int updateUser(KakaoUserVO vo) throws Exception;
 	public int editUserLikedComment(String userid,String comment_id) throws Exception;
 	public List<String> getUserLikedCommentList(String userid) throws Exception;
-	
+	public List<String> fetchUserLikedBoardList(String userid) throws Exception;
 	//마이페이지-회원정보보기
 	public KakaoUserVO profileShow(int id);
 	

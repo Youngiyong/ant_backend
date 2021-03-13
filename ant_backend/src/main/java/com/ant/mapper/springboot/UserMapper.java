@@ -22,7 +22,7 @@ public interface UserMapper {
     public String getUserComment(String userid);
     public int editUserLikedComment(String userid, String comment_id);
     public int editUserLikedCommentChange(KakaoUserVO user);
-    
+    public List<String> fetchUserLikedBoardList(String userid) throws Exception;
     //마이페이지-회원정보 보기
 	public KakaoUserVO profileShow(int id);
 	

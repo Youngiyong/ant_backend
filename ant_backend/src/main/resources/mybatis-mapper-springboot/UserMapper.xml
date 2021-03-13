@@ -53,6 +53,9 @@
          SET nickname = #{nickname}, email = #{email} 
          WHERE userid = #{userid}
      </update>
+     <select id="fetchUserLikedBoardList" parameterType = "string" resultType="string">
+         SELECT board_id FROM userlikeboard WHERE userid = #{userid}
+     </select>
      <update id="editUserLikedCommentChange" parameterType="com.ant.vo.KakaoUserVO">
          UPDATE user
          SET commentlist = #{commentlist}

@@ -12,4 +12,5 @@ public interface DeclareService {
 //	public int updateComment(CommentVO comment);
 	public int insertDeclare(DeclaredVO declare);
 //	public int deleteComment(int commentid);
+	public List<DeclaredVO> fetchDeclaredByID(String userid);
 }

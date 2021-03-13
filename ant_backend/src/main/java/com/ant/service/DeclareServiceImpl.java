@@ -31,6 +31,12 @@ public class DeclareServiceImpl implements DeclareService {
 		return 0;
 	}
 
+	@Override
+	public List<DeclaredVO> fetchDeclaredByID(String userid) {
+		List<DeclaredVO> declaredlist = declareMapper.fetchDeclaredByID(userid);
+		return declaredlist;
+	}
+
 
 	
 }

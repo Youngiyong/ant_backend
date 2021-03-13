@@ -108,6 +108,15 @@ public class UserController {
         return commentlist;
     }
     
+    @GetMapping("/UserLikedBoardList/{userid}")
+    public List<String> fetchUserLikedBoardList(@PathVariable String userid) throws Exception {
+    	System.out.println("유저 좋아요 게시물 리스트 가져오기");
+        System.out.println(userid);
+        
+        List<String> boardlist = userService.fetchUserLikedBoardList(userid);
+        
+        return boardlist;
+    }
     //컨트롤러-마이페이지-회원정보보기
     @GetMapping("/profile/{id}")
 	public KakaoUserVO profileShow(@PathVariable int id) {

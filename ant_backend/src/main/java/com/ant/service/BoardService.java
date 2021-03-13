@@ -8,6 +8,7 @@ import com.ant.vo.KakaoUserVO;
 public interface BoardService {
 
 	public List<BoardVO> boardListGet() throws Exception;
+	public List<BoardVO> fetchTopMainBoards() throws Exception;
 	public List<BoardVO> boardListGetLiked() throws Exception;
 	public List<BoardVO> boardListGetSave() throws Exception;
 //	public KakaoUserVO kakaofetchUserByID(String kakaoid) throws Exception;

@@ -103,6 +103,11 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return commentlisttemp;
 	}
+	@Override
+	public List<String> fetchUserLikedBoardList(String userid) throws Exception {
+		List<String> commentlist = userMapper.fetchUserLikedBoardList(userid);
+		return commentlist;
+	}
 	
 	//마이페이지-회원정보보기
 	public KakaoUserVO profileShow(int id) {

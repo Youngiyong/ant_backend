@@ -15,6 +15,7 @@ public interface BoardMapper {
     public List<BoardVO> boardList();
     public List<BoardVO> boardListLiked();
     public List<BoardVO> boardListGetSave();
+    public List<BoardVO> fetchTopMainBoards();
     
     public int insertBoard(BoardVO board);
     

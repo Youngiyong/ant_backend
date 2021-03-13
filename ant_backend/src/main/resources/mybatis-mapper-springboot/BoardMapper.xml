@@ -11,6 +11,13 @@
 		ON b1.board_id = b2.board_id) b3
 		INNER JOIN user ON b3.userid = user.userid ORDER BY board_createdata desc
      </select>
+     
+     <select id="fetchTopMainBoards" resultType="com.ant.vo.BoardVO">
+		(SELECT * FROM board b1 INNER JOIN user ON b1.userid = user.userid WHERE board_LikeNum = (SELECT MAX(board_LikeNum) FROM board where board_createdata BETWEEN DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()) LIMIT 1)
+		UNION
+		(SELECT * FROM board b1 INNER JOIN user ON b1.userid = user.userid WHERE board_viewnum = (SELECT MAX(board_viewnum) FROM board where board_createdata BETWEEN DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()) LIMIT 1)
+     </select>
+     
      <select id="boardListLiked" resultType="com.ant.vo.BoardVO">
 		SELECT b3.*, user.nickname as nickname FROM 
 		(SELECT b1.*,b2.board_count FROM board b1
@@ -65,12 +72,13 @@
          WHERE userid = #{userid} and board_id = #{board_id}
      </delete>
      <select id="fetchUserSavedBoardList" resultType="com.ant.vo.BoardVO" parameterType="int">
-			SELECT * FROM 
-			(SELECT b1.*,b2.board_count FROM board b1
-			LEFT JOIN (SELECT COUNT(*) board_count,board_id FROM comment WHERE board_id IN (SELECT board_id FROM board ) AND comment_hidden = 0 GROUP BY board_id) b2
-			ON b1.board_id = b2.board_id) b1
-			WHERE board_id IN
-			(SELECT board_id FROM usersavedboard WHERE userid = #{userid}) ORDER BY board_createdata desc
+				SELECT * FROM 
+				(SELECT b1.*,b2.board_count FROM board b1
+				LEFT JOIN (SELECT COUNT(*) board_count,board_id FROM comment WHERE board_id IN (SELECT board_id FROM board ) AND comment_hidden = 0 GROUP BY board_id) b2
+				ON b1.board_id = b2.board_id) b1
+				INNER JOIN user ON b1.userid = user.userid
+				WHERE board_id IN
+				(SELECT board_id FROM usersavedboard WHERE userid = 1625408104) ORDER BY board_createdata desc
      </select>
           <select id="fetchSavedUserBoardLiked" resultType="com.ant.vo.BoardVO" parameterType="int">#{userid}
          SELECT * FROM board

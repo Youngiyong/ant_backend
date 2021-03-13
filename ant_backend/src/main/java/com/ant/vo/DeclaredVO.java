@@ -8,4 +8,5 @@ public class DeclaredVO {
     int comment_id;
     String declared_type;
     String MANAGER_ID;
+    String userid;
 }

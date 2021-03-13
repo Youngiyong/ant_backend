@@ -12,7 +12,7 @@
 			<if test='comment_id==0'>
 				board_id,
 			</if>
-		     declared_type)
+		     declared_type,userid)
  		VALUE (
 			<if test='board_id==0'>
 				#{comment_id},
@@ -20,7 +20,10 @@
 			<if test='comment_id==0'>
 				#{board_id},
 			</if>
- 		#{declared_type})
+ 		#{declared_type},#{userid})
       </insert>
+     <select id="fetchDeclaredByID" resultType="com.ant.vo.DeclaredVO" parameterType="string">
+         SELECT * FROM declared WHERE userid = #{userid}
+     </select>
 
 </mapper>

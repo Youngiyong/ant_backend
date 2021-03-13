@@ -10,4 +10,5 @@ public class UserVO {
     String lastName;
     int age;
     int salary;
+    String keyword;
 }

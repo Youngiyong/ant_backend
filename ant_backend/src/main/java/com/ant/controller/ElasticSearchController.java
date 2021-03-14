@@ -66,31 +66,6 @@ public class ElasticSearchController {
 		      return new RestHighLevelClient(RestClient.builder(new HttpHost("0.0.0.0",9200,"http")));
 		}
 		
-		@GetMapping(value = "/create2")
-		public String create2() throws IOException {
-			CreateIndexRequest request = new CreateIndexRequest("news");
-			request.settings(Settings.builder()
-					.put("index.number_of_shards", 1)
-					.put("index.number_of_replicas", 2)
-					);
-			request.mapping( 	
-			        "{\n" +
-			                "  \"properties\": {\n" +
-			                "    \"news_id\": {\n" +
-			                "      \"type\": \"text\",\n" +
-			                "        \"fields\": {\n"+
-			                "        	\"keyword\": {\n"+
-			                "			\"type\": \"keyword\",\n"+
-			                "			 \"ignore_above\": 256 \n"+
-			                "    }\n" +
-			                "  }\n" +
-			                "  }\n" +
-			                "  }\n" +
-			                "}", 
-			        XContentType.JSON);
-			CreateIndexResponse indexResponse = client.indices().create(request, RequestOptions.DEFAULT);
-			return "created2";
-		}
 		
 		//index 생성시 mapping의 설정한 형식으로 생성됨
 		@GetMapping(value = "/create")
@@ -179,29 +154,7 @@ public class ElasticSearchController {
 	        JSONObject json = new JSONObject(searchResponse.toString());
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 	    }
-		
-		@PostMapping(value = "searchnewskeyword")
-	    public ResponseEntity searchnewskeyword(@RequestBody List<String> hits2) throws IOException {
-			System.out.println(hits2.size());
-			System.out.println(hits2);
-			
-			for(int i=0; i<hits2.size(); i++) {
-				
-			}
-			
-//	        QueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("news_id", id);
-//	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-//	        sourceBuilder.query(matchQueryBuilder);
-//	        sourceBuilder.from(0);
-//	        sourceBuilder.size(10);
-	        SearchRequest searchRequest = new SearchRequest("news_keyword");
-//	        searchRequest.source(sourceBuilder);
-//	        System.out.println(sourceBuilder);
-	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
-	        JSONObject json = new JSONObject(searchResponse.toString());
-	        System.out.println(json);
-	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
-	    }
+
 		
 		@GetMapping(value = "searchprefix")
 	    public ResponseEntity searchprefix(String id) throws IOException {
@@ -214,6 +167,11 @@ public class ElasticSearchController {
 	        searchRequest.source(sourceBuilder);
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
 	        System.out.println(searchResponse);
+	        if(searchResponse.getHits().getTotalHits().toString().equals("0 hits")) {
+	        	SearchResponse searchResponse02 = searchRepeat(id);
+		        JSONObject json = new JSONObject(searchResponse02.toString());
+		        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
+	        }
 	        JSONObject json = new JSONObject(searchResponse.toString());
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 	    }
@@ -235,10 +193,47 @@ public class ElasticSearchController {
 	        SearchRequest searchRequest = new SearchRequest("news");
 	        searchRequest.source(sourceBuilder);
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+	        if(searchResponse.getHits().getTotalHits().toString().equals("0 hits")) {
+	        	SearchResponse searchResponse02 = searchRepeat(id);
+		        JSONObject json = new JSONObject(searchResponse02.toString());
+		        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
+	        }
+
 	        JSONObject json = new JSONObject(searchResponse.toString());
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 	    }
 		
+	    public SearchResponse searchRepeat(String id) throws IOException {
+	    	String id2 = id.replaceAll(" ", "");
+	    	System.out.println("searchRepeat"+id2);
+	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_elastic", id2);
+	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+	        sourceBuilder.query(matchQueryBuilder);
+	        sourceBuilder.from(0);
+	        sourceBuilder.size(10); 
+	        SearchRequest searchRequest = new SearchRequest("news");
+	        searchRequest.source(sourceBuilder);
+	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+	        System.out.println("searchRepeat" +searchResponse.getHits().getTotalHits());
+	        return searchResponse;
+	    }
+		
+	    public SearchResponse searchRepeatSort(String id) throws IOException {
+	    	String id2 = id.replaceAll(" ", "");
+	    	System.out.println("searchRepeat"+id2);
+	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_elastic", id2);
+	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+	        sourceBuilder.query(matchQueryBuilder);
+	        sourceBuilder.from(0);
+	        sourceBuilder.size(10);
+	        sourceBuilder.sort(new FieldSortBuilder("news_date").order(SortOrder.DESC));
+	        SearchRequest searchRequest = new SearchRequest("news");
+	        searchRequest.source(sourceBuilder);
+	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+	        System.out.println("searchRepeat" +searchResponse.getHits().getTotalHits());
+	        return searchResponse;
+	    }
+
 		//최신순
 		@GetMapping(value = "searchmatchparsesort")
 	    public ResponseEntity searchmatchparsesort(String id) throws IOException {
@@ -251,6 +246,11 @@ public class ElasticSearchController {
 	        SearchRequest searchRequest = new SearchRequest("news");
 	        searchRequest.source(sourceBuilder);
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+	        if(searchResponse.getHits().getTotalHits().toString().equals("0 hits")) {
+	        	SearchResponse searchResponse02 = searchRepeatSort(id);
+		        JSONObject json = new JSONObject(searchResponse02.toString());
+		        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
+	        }
 	        JSONObject json = new JSONObject(searchResponse.toString());
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 		}
@@ -288,8 +288,11 @@ public class ElasticSearchController {
 	        SearchRequest searchRequest = new SearchRequest("news");
 	        searchRequest.source(sourceBuilder);
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
-	        System.out.println(sourceBuilder);
-	        System.out.println(searchResponse);
+	        if(searchResponse.getHits().getTotalHits().toString().equals("0 hits")) {
+	        	SearchResponse searchResponse02 = searchRepeat(id);
+		        JSONObject json = new JSONObject(searchResponse02.toString());
+		        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
+	        }
 	        JSONObject json = new JSONObject(searchResponse.toString());
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 	    }
@@ -343,6 +346,11 @@ public class ElasticSearchController {
             sourceBuilder.sort(new FieldSortBuilder("news_date").order(SortOrder.DESC));
 	        searchRequest.source(sourceBuilder);
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+	        if(searchResponse.getHits().getTotalHits().toString().equals("0 hits")) {
+	        	SearchResponse searchResponse02 = searchRepeatSort(id);
+		        JSONObject json = new JSONObject(searchResponse02.toString());
+		        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
+	        }
 	        JSONObject json = new JSONObject(searchResponse.toString());
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 		}
@@ -357,6 +365,11 @@ public class ElasticSearchController {
 	        SearchRequest searchRequest = new SearchRequest("news");
 	        searchRequest.source(sourceBuilder);
 	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+	        if(searchResponse.getHits().getTotalHits().toString().equals("0 hits")) {
+	        	SearchResponse searchResponse02 = searchRepeat(id);
+		        JSONObject json = new JSONObject(searchResponse02.toString());
+		        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
+	        }
 	        JSONObject json = new JSONObject(searchResponse.toString());
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 	    }

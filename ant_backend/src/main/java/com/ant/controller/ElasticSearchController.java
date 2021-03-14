@@ -421,4 +421,31 @@ public class ElasticSearchController {
 			BulkResponse bulkResponse = client.bulk(request, RequestOptions.DEFAULT);
 			return bulkResponse;
 		}
+		
+		@GetMapping(value = "searchboardmatchpharse")
+	    public ResponseEntity searchboardmatchpharse(String id) throws IOException {
+	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("board_search_content", id);
+	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+	        sourceBuilder.query(matchQueryBuilder);
+	        sourceBuilder.from(0);
+	        sourceBuilder.size(10);
+//	        sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC)); 
+//          sourceBuilder.sort(new FieldSortBuilder("news_date").order(SortOrder.DESC));  
+	        SearchRequest searchRequest = new SearchRequest("boards");
+	        searchRequest.source(sourceBuilder);
+	        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+//	        if(searchResponse.getHits().getTotalHits().toString().equals("0 hits")) {
+//	        	SearchResponse searchResponse02 = searchRepeat(id);
+//		        JSONObject json = new JSONObject(searchResponse02.toString());
+//		        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
+//	        }
+
+	        JSONObject json = new JSONObject(searchResponse.toString());
+//	        System.out.println(searchRequest);
+//	        System.out.println(sourceBuilder);
+//	        System.out.println(searchResponse);
+	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
+	    }
+		
+
 }

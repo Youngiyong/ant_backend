@@ -42,8 +42,8 @@
      </select>
      
      <insert id="insertBoard" parameterType="com.ant.vo.BoardVO">
-		INSERT INTO board(userid ,board_title,board_content)
-		 VALUE (#{userid},#{board_title},#{board_content})
+		INSERT INTO board(userid ,board_title,board_content,board_search_content)
+		 VALUE (#{userid},#{board_title},#{board_content},#{board_search_content})
       </insert>
      
      <update id="BoardViewCount" parameterType="int">
@@ -54,7 +54,7 @@
      </select>
      <update id="updateBoard" parameterType="com.ant.vo.BoardVO">
          UPDATE board
-         SET board_title = #{board_title}, board_content = #{board_content}, board_hidden = #{board_hidden}, board_LikeNum = #{board_LikeNum},board_modifydata = current_timestamp()
+         SET board_title = #{board_title},board_search_content = #{board_search_content} ,board_content = #{board_content}, board_hidden = #{board_hidden}, board_LikeNum = #{board_LikeNum},board_modifydata = current_timestamp()
          WHERE board_id = #{board_id}
      </update>
      <insert id="addUserLikeBoard" parameterType="com.ant.vo.BoardVO">

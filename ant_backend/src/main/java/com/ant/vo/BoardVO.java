@@ -16,4 +16,5 @@ public class BoardVO {
     
     String nickname;
     int board_count;
+    String board_search_content;
 }

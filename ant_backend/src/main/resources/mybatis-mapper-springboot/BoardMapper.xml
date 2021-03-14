@@ -13,9 +13,17 @@
      </select>
      
      <select id="fetchTopMainBoards" resultType="com.ant.vo.BoardVO">
-		(SELECT * FROM board b1 INNER JOIN user ON b1.userid = user.userid WHERE board_LikeNum = (SELECT MAX(board_LikeNum) FROM board where board_createdata BETWEEN DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()) LIMIT 1)
-		UNION
-		(SELECT * FROM board b1 INNER JOIN user ON b1.userid = user.userid WHERE board_viewnum = (SELECT MAX(board_viewnum) FROM board where board_createdata BETWEEN DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()) LIMIT 1)
+		(SELECT * FROM (SELECT b1.*,b2.board_count FROM board b1
+		LEFT JOIN (SELECT COUNT(*) board_count,board_id FROM comment WHERE board_id IN (SELECT board_id FROM board ) AND comment_hidden = 0 GROUP BY board_id) b2
+		ON b1.board_id = b2.board_id
+		) b4  INNER JOIN user ON b4.userid = user.userid WHERE board_LikeNum = (SELECT MAX(board_LikeNum) FROM board where board_hidden = 0 and board_createdata BETWEEN DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()) LIMIT 1)
+				UNION
+		(SELECT * FROM 
+		(SELECT b1.*,b2.board_count FROM board b1
+		LEFT JOIN (SELECT COUNT(*) board_count,board_id FROM comment WHERE board_id IN (SELECT board_id FROM board ) AND comment_hidden = 0 GROUP BY board_id) b2
+		ON b1.board_id = b2.board_id
+		) b4  
+		INNER JOIN user ON b4.userid = user.userid WHERE board_viewnum = (SELECT MAX(board_viewnum) FROM board WHERE board_hidden = 0 and board_createdata BETWEEN DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()) LIMIT 1)
      </select>
      
      <select id="boardListLiked" resultType="com.ant.vo.BoardVO">

@@ -19,7 +19,22 @@
   		SELECT * FROM list WHERE code = #{stockId}
   	</select>
   	
-  	  <select id="mainIndicatorCall" resultType="com.ant.vo.StockVO" parameterType="string">
+  	<select id="mainIndicatorCall" resultType="com.ant.vo.StockVO" parameterType="string">
   	  SELECT a.`price`, a.`change`, b.`name`, b.`code` FROM `${code}` a JOIN list b WHERE b.code=${code} ORDER BY a.datetime DESC LIMIT 14
   	</select>
+  	
+  	<select id="increaseStocks" resultType="com.ant.vo.StockVO">
+  		SELECT `name`, `code`, price, `change`, datetime FROM stocklist 
+			WHERE 82600 > TIMESTAMPDIFF(SECOND , datetime, NOW())
+			ORDER BY `change` DESC LIMIT 4
+  	</select>
+  	
+  	<select id="decreaseStocks" resultType="com.ant.vo.StockVO">
+  		  	SELECT `name`, `code`, price, `change`, datetime FROM stocklist 
+			WHERE 82600 > TIMESTAMPDIFF(SECOND , datetime, NOW())
+			ORDER BY `change` ASC LIMIT 4
+  	</select>
+  	
+
+  	
 </mapper>

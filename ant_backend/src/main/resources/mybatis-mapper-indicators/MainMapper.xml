@@ -10,7 +10,7 @@
   	</select>
   	
   	<!-- 각 테이블 최근 일자 데이터 가져오기 -->
-	<select id="latestData" resultType="com.ant.vo.ChangedateVO">
+	<select id="latestData" resultType="hashmap">
   		<foreach collection="list" item="item" separator="UNION">
   			(SELECT dates, price, changedate FROM ${item} ORDER BY dates DESC LIMIT 1)
   		</foreach>

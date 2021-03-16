@@ -48,7 +48,7 @@
   <!-- 상관관계 절대값으로 최상위값 표현 -->
   <select id="corrAbs" parameterType="hashmap" resultType="com.ant.vo.CorrVO">
   SELECT indicator, ${indi}, indiname FROM corr where ABS(${indi}) != 1 ORDER BY ABS(${indi}) DESC LIMIT ${num}
-  </select>
+  </select>	
   
   <!-- 댓글 입력 -->
   <insert id="insertIndicator" >
@@ -70,5 +70,10 @@
   <select id="numberCommentsByIndID"  parameterType="String" resultType="int">
      SELECT truncate(COUNT(*)/5, 0) + 1 FROM indicomment WHERE indiname=#{symbolname}
   </select>
+  
+   <!-- 댓글삭제 -->
+  <delete id="deleteUserByUpdate"  parameterType="int" >
+     delete from indicomment WHERE comment_id = ${comment_id}
+  </delete>
   
 </mapper>

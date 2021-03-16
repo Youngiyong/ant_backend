@@ -132,6 +132,12 @@ public class IndicatorServiceImpl implements IndicatorService {
 		return IndicatorMapper.numberCommentsByIndID(symbolname);
 	}
 
-	
+	//댓글-삭제
+	public int deleteUserByUpdate(int comment_id) {
+		System.out.println("댓글삭제-서비스임플"+ comment_id);
+		return IndicatorMapper.deleteUserByUpdate(comment_id);
+		
+	}
+
 	
 }

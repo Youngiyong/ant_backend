@@ -63,7 +63,7 @@ public class ElasticSearchController {
 		@Bean(destroyMethod = "close")
 		@Scope("prototype")//prototype : 어플리케이션에서 요청시 (getBean()) 마다 스프링이 새 인스턴스를 생성
 		public RestHighLevelClient restHighLevelClient(){
-		      return new RestHighLevelClient(RestClient.builder(new HttpHost("0.0.0.0",9200,"http")));
+		      return new RestHighLevelClient(RestClient.builder(new HttpHost("3.36.26.132",9200,"http")));
 		}
 		
 		
@@ -183,6 +183,7 @@ public class ElasticSearchController {
 		//예) 모든 단어가 정확한 위치에 있어야 매치된다.
 		@GetMapping(value = "searchmatchparse")
 	    public ResponseEntity searchmatchparse(String id) throws IOException {
+			System.out.println(id);
 	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_elastic", id);
 	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 	        sourceBuilder.query(matchQueryBuilder);

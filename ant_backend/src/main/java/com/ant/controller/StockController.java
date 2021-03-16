@@ -31,6 +31,7 @@ public class StockController {
 	// 개별 종목 정보 가져오기
 	@GetMapping("/{stockId}")
 	public StockListVO selectByStockId(@PathVariable String stockId) {
+		System.out.println(stockId);
 		return stockService.selectByStockId(stockId);
 	}
 

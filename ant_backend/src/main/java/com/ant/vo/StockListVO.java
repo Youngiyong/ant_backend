@@ -10,6 +10,6 @@ public class StockListVO {
 	String fullname;
 	String market;
 	String category;
-	int stockslisted;
+	String stockslisted;
 	
 }

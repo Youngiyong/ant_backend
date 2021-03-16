@@ -45,10 +45,30 @@
   SELECT dates, price, open, high, low, keyword FROM ${tableName}  ORDER BY dates desc LIMIT #{num}
   </select>
   
-    <!-- 상관관계 절대값으로 최상위값 표현 -->
+  <!-- 상관관계 절대값으로 최상위값 표현 -->
   <select id="corrAbs" parameterType="hashmap" resultType="com.ant.vo.CorrVO">
   SELECT indicator, ${indi}, indiname FROM corr where ABS(${indi}) != 1 ORDER BY ABS(${indi}) DESC LIMIT ${num}
   </select>
   
+  <!-- 댓글 입력 -->
+  <insert id="insertIndicator" >
+  insert into indicomment(indiname, userid, nickname, comment_content, comment_Likenum, comment_hidden, comment_createdata)
+   values(#{indiName}, #{userId}, #{nickName}, #{comment_content}, 0, 0, now())
+  </insert>
+  
+  <!-- 댓글 리스트 -->
+ <!-- 
+ <select id="fetchCommentsByIndID"  parameterType="String" resultType="com.ant.vo.IndiCommentVO">
+  SELECT * FROM indicomment WHERE indiname=#{symbolname} ORDER BY comment_id desc
+  </select>
+  --> 
+  <select id="firstCommentsByIndID"  parameterType="string" resultType="com.ant.vo.IndiCommentVO">
+   SELECT * FROM indicomment WHERE indiname=#{symbolname} ORDER BY comment_id desc LIMIT 5 OFFSET 0 
+  </select>
+  
+   <select id="fetchCommentsByIndID"  parameterType="hashmap" resultType="com.ant.vo.IndiCommentVO">
+     SELECT * FROM indicomment WHERE indiname=#{symbolname} ORDER BY comment_id desc LIMIT 5 OFFSET ${number} 
+ 
+  </select>
   
 </mapper>

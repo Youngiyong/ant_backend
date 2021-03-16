@@ -15,6 +15,7 @@ import com.ant.vo.BoardVO;
 import com.ant.vo.CorrVO;
 import com.ant.vo.ExechangeRateKorVO;
 import com.ant.vo.ExechangeRateVO;
+import com.ant.vo.IndiCommentVO;
 import com.ant.vo.Indicator1VO;
 import com.ant.vo.Indicator2VO;
 import com.ant.vo.KakaoUserVO;
@@ -24,6 +25,13 @@ import com.ant.vo.TestVO;
 @Service("IndicatorService")
 public class IndicatorServiceImpl implements IndicatorService {
 
+	private int totalRecCount;	
+	
+	private int pageTotalCount;		
+	
+	//한 페이지당 예약내역 수
+	private int countPerPage = 5;
+	
 	@Autowired
     IndicatorMapper IndicatorMapper;
   
@@ -95,5 +103,29 @@ public class IndicatorServiceImpl implements IndicatorService {
 		map.put("num", num);
 		return IndicatorMapper.corrAbs(map);
 	}
+
+	//댓글입력-지표
+	public void insertIndicator(IndiCommentVO indicomment) {
+		System.out.println("댓글-입력");
+		IndicatorMapper.insertIndicator(indicomment);
+	}
+	
+	//댓글리스트-지표
+	public List<IndiCommentVO> fetchCommentsByIndID(String symbol, int number) {
+		System.out.println("댓글-리스트");
+		int firstRow = (number-1)*countPerPage;
+		//int endRow = num*countPerPage; 
+		HashMap map = new HashMap();
+		map.put("symbolname", symbol);
+		map.put("number", firstRow);	
+		//map.put("row2", endRow);
+		return IndicatorMapper.fetchCommentsByIndID(map);
+	}
+
+	@Override
+	public List<IndiCommentVO> firstCommentsByIndID(String symbol) {
+		return IndicatorMapper.firstCommentsByIndID(symbol);
+	}
+
 	
 }

@@ -6,6 +6,7 @@ import com.ant.vo.BoardVO;
 import com.ant.vo.CorrVO;
 import com.ant.vo.ExechangeRateKorVO;
 import com.ant.vo.ExechangeRateVO;
+import com.ant.vo.IndiCommentVO;
 import com.ant.vo.Indicator1VO;
 import com.ant.vo.Indicator2VO;
 import com.ant.vo.KakaoUserVO;
@@ -41,4 +42,13 @@ public interface IndicatorService {
 	
 	//상관관계 절대값으로 최상위값 표현
 	public List<CorrVO> corrAbs(String indi, int num); 
+	
+	//댓글-입력
+	public void insertIndicator(IndiCommentVO indicomment);
+	
+	//댓글리스트
+	public List<IndiCommentVO> firstCommentsByIndID(String symbol);
+	
+	//댓글리스트
+	public List<IndiCommentVO> fetchCommentsByIndID(String symbol, int number);
 }

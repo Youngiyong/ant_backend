@@ -8,6 +8,7 @@ import com.ant.vo.BoardVO;
 import com.ant.vo.CorrVO;
 import com.ant.vo.ExechangeRateKorVO;
 import com.ant.vo.ExechangeRateVO;
+import com.ant.vo.IndiCommentVO;
 import com.ant.vo.Indicator1VO;
 import com.ant.vo.Indicator2VO;
 import com.ant.vo.KakaoUserVO;
@@ -43,4 +44,13 @@ public interface IndicatorMapper {
  
 	//상관관계 절대값으로 최상위값 표현
 	List<CorrVO> corrAbs(HashMap map);
+
+	//댓글-원-달러
+	void insertIndicator(IndiCommentVO indicomment);
+
+	//댓글리스트-지표
+	//List<IndiCommentVO> fetchCommentsByIndID(String symbol);
+	List<IndiCommentVO> fetchCommentsByIndID(HashMap map);
+
+	List<IndiCommentVO> firstCommentsByIndID(String symbol);
 }

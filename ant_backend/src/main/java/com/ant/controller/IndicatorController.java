@@ -23,6 +23,7 @@ import com.ant.vo.BoardVO;
 import com.ant.vo.CorrVO;
 import com.ant.vo.ExechangeRateKorVO;
 import com.ant.vo.ExechangeRateVO;
+import com.ant.vo.IndiCommentVO;
 import com.ant.vo.Indicator1VO;
 import com.ant.vo.Indicator2VO;
 import com.ant.vo.KakaoUserVO;
@@ -103,6 +104,28 @@ public class IndicatorController {
 	public List<CorrVO> corrAbs(@PathVariable String indi, @PathVariable int num){
 		System.out.println("지표-유형1(국제금,WTI)");
 		return indicatorService.corrAbs(indi, num);
+	}
+    
+    //댓글-INSERT
+    @PostMapping("/input")
+	public void insertIndicator(@RequestBody IndiCommentVO indicomment) {
+    	System.out.println("댓글-원-달러");
+    	indicatorService.insertIndicator(indicomment);
+	}
+    
+    //댓글-LisT
+    @GetMapping("/comList2/{symbolname}/{num}")
+	public List<IndiCommentVO> fetchCommentsByIndID(@PathVariable String symbolname, @PathVariable int num) {
+    	int number = num-1;
+    	System.out.println("댓글-리스트");
+    	return indicatorService.fetchCommentsByIndID(symbolname, number);
+	}
+    
+  //댓글-LisT
+    @GetMapping("/comList/{symbolname}")
+	public List<IndiCommentVO> firstCommentsByIndID(@PathVariable String symbolname) {
+    	System.out.println("댓글-리스트");
+    	return indicatorService.firstCommentsByIndID(symbolname);
 	}
 
     

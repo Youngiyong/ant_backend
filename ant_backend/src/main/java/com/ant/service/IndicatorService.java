@@ -51,4 +51,7 @@ public interface IndicatorService {
 	
 	//댓글리스트
 	public List<IndiCommentVO> fetchCommentsByIndID(String symbol, int number);
+	
+	//댓글삭제
+	public int deleteUserByUpdate(int comment_id);
 }

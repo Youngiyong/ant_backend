@@ -56,4 +56,7 @@ public interface IndicatorMapper {
 
 	//댓글-리스트숫자
 	int numberCommentsByIndID(String symbolname);
+
+	//댓글-삭제
+	 int deleteUserByUpdate(int comment_id);
 }

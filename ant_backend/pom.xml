@@ -8,12 +8,14 @@
 		<version>2.4.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
+	
+	<groupId>com.ant</groupId>
 	<artifactId>SpringProject</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>SpringProject</name>
 	<description>Demo project for Spring Boot</description>
+	
 	<properties>
 		<java.version>1.8</java.version>
 		<elasticsearch.version>7.6.2</elasticsearch.version>

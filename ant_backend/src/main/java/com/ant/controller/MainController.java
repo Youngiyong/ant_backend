@@ -5,8 +5,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +29,8 @@ import com.ant.vo.ChangedateVO;
 import com.ant.vo.IndicatorTableVO;
 import com.ant.vo.StockVO;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/main")
@@ -35,55 +42,34 @@ public class MainController {
 	@Autowired
 	StockServiceImpl StockService;
 	
-	// 종목 순위
-	@GetMapping("/stockRank/{sortStocks}")
-	public List<StockVO> stockRank(@PathVariable String sortStocks){
-
+	// 종목 크롤링 후 stocklist 테이블에 종목 등록
+	@GetMapping("/stockRegistJSON")
+	public ResponseEntity stockRegistJSON(){
 		ArrayList<String> tables = StockService.stockTables();
 		tables.remove("list");
-
+		tables.remove("stocklist");
 		List<StockVO> tablesDataset = StockService.latestData(tables);
-
-		// 상승한 순서로 정렬
-		if (sortStocks.equals("상승순")) {
-			Collections.sort(tablesDataset, new Comparator<StockVO>() {
-				public int compare(StockVO t1, StockVO t2) {
-					if (t1.getChange() < t2.getChange()) {
-						return 1;
-					} else if (t1.getChange() > t2.getChange()) {
-						return -1;
-					} else {
-						return 0;
-					}
-				}
-			});
-		} else if (sortStocks.equals("하락순")){
-			// 하락한 순서로 정렬 (추가 예정 - State 파라미터 받아와 If 조건 필터)
-			Collections.sort(tablesDataset, new Comparator<StockVO>() {
-				public int compare(StockVO t1, StockVO t2) {
-					if (t1.getChange() > t2.getChange()) {
-						return 1;
-					} else if (t1.getChange() < t2.getChange()) {
-						return -1;
-					} else {
-						return 0;
-					}
-				}
-			});
-		}
-
-//		ArrayList<List<StockVO>> result = new ArrayList<List<StockVO>>();
-//
-//		// 상위 4개 데이터 불러오기
-		List<StockVO> result = new ArrayList<StockVO>();
+		System.out.println(tablesDataset.size());
 		
-		for (int i = 0; i<5; i++) {
-			result.add(tablesDataset.get(i));
-			System.out.println(tablesDataset.get(i));
+		JSONArray json = new JSONArray();
+		for (int i=0; i<tablesDataset.size(); i++) {
+			JSONObject obj = new JSONObject(tablesDataset.get(i));
+			json.put(obj.toMap());
 		}
-		return result;
+		return new ResponseEntity<>(json.toString(), HttpStatus.OK);
 	}
 
+	@GetMapping("/stockRank/{sortStocks}")
+	public List<StockVO> stockRank(@PathVariable String sortStocks){
+		List<StockVO> result = null;
+		if(sortStocks.equals("상승순")){
+			 result = StockService.increaseStocks();
+		} else if (sortStocks.equals("하락순")) {
+			result = StockService.decreaseStocks();
+		}
+		
+		return result;
+	}
 	
 	
 	// 메인화면 경제 지표 순위 근거
@@ -92,7 +78,6 @@ public class MainController {
 
 		// 테이블 목록 불러오기
 		ArrayList<String> tables = MainService.indicatorTables();
-
 		// 목록에서 corr, exechangerate, today 삭제
 		tables.remove("corr");
 		tables.remove("exechangerate");

@@ -2,6 +2,7 @@ package com.ant.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -21,4 +22,9 @@ public interface StockService {
 	
 	// 메인화면 경제 지표 순위 순 각 테이블 최근 일자 데이터
 	public List<StockVO> mainIndicatorCall(String tableName);
+	
+	// 메인화면 하락순
+	public List<ChangedateVO> decreaseStocks();
+	// 메인화면 상승순
+	public List<ChangedateVO> increaseStocks();
 }

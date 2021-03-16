@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ant.service.MainServiceImpl;
+import com.ant.service.StockService;
+import com.ant.service.StockServiceImpl;
 import com.ant.vo.ChangedateVO;
 import com.ant.vo.IndicatorTableVO;
+import com.ant.vo.StockVO;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -29,6 +32,60 @@ public class MainController {
 	@Autowired
 	MainServiceImpl MainService;
 
+	@Autowired
+	StockServiceImpl StockService;
+	
+	// 종목 순위
+	@GetMapping("/stockRank/{sortStocks}")
+	public List<StockVO> stockRank(@PathVariable String sortStocks){
+
+		ArrayList<String> tables = StockService.stockTables();
+		tables.remove("list");
+
+		List<StockVO> tablesDataset = StockService.latestData(tables);
+
+		// 상승한 순서로 정렬
+		if (sortStocks.equals("상승순")) {
+			Collections.sort(tablesDataset, new Comparator<StockVO>() {
+				public int compare(StockVO t1, StockVO t2) {
+					if (t1.getChange() < t2.getChange()) {
+						return 1;
+					} else if (t1.getChange() > t2.getChange()) {
+						return -1;
+					} else {
+						return 0;
+					}
+				}
+			});
+		} else if (sortStocks.equals("하락순")){
+			// 하락한 순서로 정렬 (추가 예정 - State 파라미터 받아와 If 조건 필터)
+			Collections.sort(tablesDataset, new Comparator<StockVO>() {
+				public int compare(StockVO t1, StockVO t2) {
+					if (t1.getChange() > t2.getChange()) {
+						return 1;
+					} else if (t1.getChange() < t2.getChange()) {
+						return -1;
+					} else {
+						return 0;
+					}
+				}
+			});
+		}
+
+//		ArrayList<List<StockVO>> result = new ArrayList<List<StockVO>>();
+//
+//		// 상위 4개 데이터 불러오기
+		List<StockVO> result = new ArrayList<StockVO>();
+		
+		for (int i = 0; i<5; i++) {
+			result.add(tablesDataset.get(i));
+			System.out.println(tablesDataset.get(i));
+		}
+		return result;
+	}
+
+	
+	
 	// 메인화면 경제 지표 순위 근거
 	@GetMapping("/indicatorRank/{sortNews}")
 	public ArrayList<List<ChangedateVO>> indicatorRank(@PathVariable String sortNews) {
@@ -40,6 +97,7 @@ public class MainController {
 		tables.remove("corr");
 		tables.remove("exechangerate");
 		tables.remove("today");
+		tables.remove("indicomment");
 
 		List<ChangedateVO> tablesDataset = MainService.latestData(tables);
 
@@ -50,7 +108,6 @@ public class MainController {
 		// 상승한 순서로 정렬
 		if (sortNews.equals("상승순")) {
 			Collections.sort(tablesDataset, new Comparator<ChangedateVO>() {
-				@Override
 				public int compare(ChangedateVO t1, ChangedateVO t2) {
 					if (t1.getChangedate() < t2.getChangedate()) {
 						return 1;
@@ -64,7 +121,6 @@ public class MainController {
 		} else if (sortNews.equals("하락순")){
 			// 하락한 순서로 정렬 (추가 예정 - State 파라미터 받아와 If 조건 필터)
 			Collections.sort(tablesDataset, new Comparator<ChangedateVO>() {
-				@Override
 				public int compare(ChangedateVO t1, ChangedateVO t2) {
 					if (t1.getChangedate() > t2.getChangedate()) {
 						return 1;
@@ -83,6 +139,7 @@ public class MainController {
 		for (int i = 0; i < 4; i++) {
 			List<ChangedateVO> tempo = MainService.mainIndicatorCall(tablesDataset.get(i).getTableName());
 			tempo.get(0).setTableName(tablesDataset.get(i).getTableName());
+			System.out.println(tablesDataset.get(i).getTableName());
 			result.add(tempo);
 		}
 		return result;

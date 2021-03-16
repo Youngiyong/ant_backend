@@ -4,8 +4,22 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ant.mapper.ko.StockMapper">
 
-	<select id="selectByStockId" resultType="com.ant.vo.StockListVO" parameterType="string">
-  		SELECT * FROM list WHERE code = ${stockId}
+  	<!-- 종목 테이블 목록 -->
+  	<select id="stockTables" resultType="string">
+  		show tables
+  	</select>
+  	  	<!-- 각 테이블 최근 일자 데이터 가져오기 -->
+	<select id="latestData" resultType="com.ant.vo.StockVO" parameterType="list">
+  		<foreach collection="list" item="item" separator="UNION">
+  			(SELECT a.`price`, a.`change`, b.`name`, b.`code` FROM `${item}` a JOIN list b WHERE b.code=${item} ORDER BY a.datetime DESC LIMIT 1)
+  		</foreach>
   	</select>
   	
+	<select id="selectByStockId" resultType="com.ant.vo.StockListVO" parameterType="string">
+  		SELECT * FROM list WHERE code = #{stockId}
+  	</select>
+  	
+  	  <select id="mainIndicatorCall" resultType="com.ant.vo.StockVO" parameterType="string">
+  	  SELECT a.`price`, a.`change`, b.`name`, b.`code` FROM `${code}` a JOIN list b WHERE b.code=${code} ORDER BY a.datetime DESC LIMIT 14
+  	</select>
 </mapper>

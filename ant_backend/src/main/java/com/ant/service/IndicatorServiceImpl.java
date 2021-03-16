@@ -127,5 +127,11 @@ public class IndicatorServiceImpl implements IndicatorService {
 		return IndicatorMapper.firstCommentsByIndID(symbol);
 	}
 
+	//댓글-리스트숫자
+	public int numberCommentsByIndID(String symbolname) {
+		return IndicatorMapper.numberCommentsByIndID(symbolname);
+	}
+
+	
 	
 }

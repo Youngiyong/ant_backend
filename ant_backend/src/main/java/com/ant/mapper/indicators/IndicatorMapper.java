@@ -53,4 +53,7 @@ public interface IndicatorMapper {
 	List<IndiCommentVO> fetchCommentsByIndID(HashMap map);
 
 	List<IndiCommentVO> firstCommentsByIndID(String symbol);
+
+	//댓글-리스트숫자
+	int numberCommentsByIndID(String symbolname);
 }

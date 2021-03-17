@@ -63,14 +63,14 @@ public class ElasticSearchController {
 		@Bean(destroyMethod = "close")
 		@Scope("prototype")//prototype : 어플리케이션에서 요청시 (getBean()) 마다 스프링이 새 인스턴스를 생성
 		public RestHighLevelClient restHighLevelClient(){
-		      return new RestHighLevelClient(RestClient.builder(new HttpHost("3.36.26.132",9200,"http")));
+		      return new RestHighLevelClient(RestClient.builder(new HttpHost("0.0.0.0",9200,"http")));
 		}
 		
 		
 		//index 생성시 mapping의 설정한 형식으로 생성됨
 		@GetMapping(value = "/create")
 		public String ping() throws IOException {
-			CreateIndexRequest request = new CreateIndexRequest("news_keyword-2021.02.23");
+			CreateIndexRequest request = new CreateIndexRequest("news_keyword");
 			request.settings(Settings.builder()
 					.put("index.number_of_shards", 1)
 					.put("index.number_of_replicas", 2)
@@ -123,6 +123,8 @@ public class ElasticSearchController {
 	  	}
 		}
 		 */
+		
+		
 		@GetMapping(value = "searchcount")
 	    public ResponseEntity searchcount() throws IOException {
 			SearchRequest searchRequest = new SearchRequest("news_keyword-2021.02.23");
@@ -181,8 +183,8 @@ public class ElasticSearchController {
 		//match 쿼리는 용어 사이에 띄어쓰기를 하면 bool-should 쿼리로 처리된다. 
 		//띄어쓰기까지 모두 포함해 정확한 구(phrase)를 검색하고 싶다면 match_phrase 쿼리를 사용한다.
 		//예) 모든 단어가 정확한 위치에 있어야 매치된다.
-		@GetMapping(value = "searchmatchparse")
-	    public ResponseEntity searchmatchparse(String id) throws IOException {
+		@GetMapping(value = "searchmatchphrase")
+	    public ResponseEntity searchmatchphrase(String id) throws IOException {
 			System.out.println(id);
 	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_elastic", id);
 	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -204,6 +206,7 @@ public class ElasticSearchController {
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 	    }
 		
+		//검색 결과 없을시 띄어쓰기 제외후 쿼리
 	    public SearchResponse searchRepeat(String id) throws IOException {
 	    	String id2 = id.replaceAll(" ", "");
 	    	System.out.println("searchRepeat"+id2);
@@ -235,9 +238,10 @@ public class ElasticSearchController {
 	        return searchResponse;
 	    }
 
+	    
 		//최신순
-		@GetMapping(value = "searchmatchparsesort")
-	    public ResponseEntity searchmatchparsesort(String id) throws IOException {
+		@GetMapping(value = "searchmatchphrasesort")
+	    public ResponseEntity searchmatchphrasesort(String id) throws IOException {
 	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_elastic", id);
 	        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 	        sourceBuilder.query(matchQueryBuilder);
@@ -256,6 +260,7 @@ public class ElasticSearchController {
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 		}
 		
+		//오늘의 뉴스 최신 9개
 	    @GetMapping(value = "searchtodaynews")
 	    public ResponseEntity searchtodaynews() throws IOException {
 	        Calendar cal = Calendar.getInstance();
@@ -298,8 +303,9 @@ public class ElasticSearchController {
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 	    }
 		
-		@GetMapping(value = "searchmatchparsedate")
-	    public ResponseEntity searchmatchparsedate(String id, String id2) throws IOException {
+		//주, 월 기간별 검색 쿼리
+		@GetMapping(value = "searchmatchphrasedate")
+	    public ResponseEntity searchmatchphrasedate(String id, String id2) throws IOException {
 	        QueryBuilder matchQueryBuilder = QueryBuilders.matchPhrasePrefixQuery("news_elastic", id);
 	        Calendar cal = Calendar.getInstance();
 	        Date date = cal.getTime();
@@ -356,6 +362,7 @@ public class ElasticSearchController {
 	        return new ResponseEntity<>(json.toMap(), HttpStatus.OK);
 		}
 		
+		
 		@GetMapping(value = "searchworkdkeyword")
 	    public ResponseEntity searchworkdkeyword(String id) throws IOException {
 	        QueryBuilder matchQueryBuilder = QueryBuilders.prefixQuery("word", id);
@@ -379,46 +386,46 @@ public class ElasticSearchController {
 		@GetMapping(value = "bulkrequest")
 	    public BulkResponse bulkrequest() throws IOException {
 			BulkRequest request = new BulkRequest(); 
-			request.add(new IndexRequest("news").id("1")  
+			request.add(new IndexRequest("news_keyword").id(uuidran.toString().replace("-", ""))
 			        .source(XContentType.JSON,"word", "금융감독원"));
-			request.add(new IndexRequest("news").id("2")  
-			        .source(XContentType.JSON,"word", "금융결제원"));
-			request.add(new IndexRequest("news").id("3")  
-			        .source(XContentType.JSON,"word", "금융조합"));
-			request.add(new IndexRequest("news").id("4")  
-			        .source(XContentType.JSON,"word", "금융소비자원"));
-			request.add(new IndexRequest("news").id("5")  
-			        .source(XContentType.JSON,"word", "금융산업"));
-			request.add(new IndexRequest("news").id("6")  
-			        .source(XContentType.JSON,"word", "금융 자격증"));
-			request.add(new IndexRequest("news").id("7")  
-			        .source(XContentType.JSON,"word", "금융 데이터"));
-			request.add(new IndexRequest("news").id("8")  
-			        .source(XContentType.JSON,"word", "금융이란"));
-			request.add(new IndexRequest("news").id("9")  
-			        .source(XContentType.JSON,"word", "금융위기"));
-			request.add(new IndexRequest("news").id("10")  
-			        .source(XContentType.JSON,"word", "부자"));
-			request.add(new IndexRequest("news").id("11")  
-			        .source(XContentType.JSON,"word", "부동산"));
-			request.add(new IndexRequest("news").id("12")  
-			        .source(XContentType.JSON,"word", "부양"));
-			request.add(new IndexRequest("news").id("13")  
-			        .source(XContentType.JSON,"word", "삼성"));
-			request.add(new IndexRequest("news").id("14")  
-			        .source(XContentType.JSON,"word", "삼성전자"));
-			request.add(new IndexRequest("news").id("15")  
-			        .source(XContentType.JSON,"word", "삼성에스원"));
-			request.add(new IndexRequest("news").id("16")  
-			        .source(XContentType.JSON,"word", "삼성전기"));
-			request.add(new IndexRequest("news").id("17")  
-			        .source(XContentType.JSON,"word", "경제뉴스"));
-			request.add(new IndexRequest("news").id("18")  
-			        .source(XContentType.JSON,"word", "경제신문"));
-			request.add(new IndexRequest("news").id("19")  
-			        .source(XContentType.JSON,"word", "경제위기"));
-			request.add(new IndexRequest("news").id("20")  
-			        .source(XContentType.JSON,"word", "경제란"));
+//			request.add(new IndexRequest("news").id("2")  
+//			        .source(XContentType.JSON,"word", "금융결제원"));
+//			request.add(new IndexRequest("news").id("3")  
+//			        .source(XContentType.JSON,"word", "금융조합"));
+//			request.add(new IndexRequest("news").id("4")  
+//			        .source(XContentType.JSON,"word", "금융소비자원"));
+//			request.add(new IndexRequest("news").id("5")  
+//			        .source(XContentType.JSON,"word", "금융산업"));
+//			request.add(new IndexRequest("news").id("6")  
+//			        .source(XContentType.JSON,"word", "금융 자격증"));
+//			request.add(new IndexRequest("news").id("7")  
+//			        .source(XContentType.JSON,"word", "금융 데이터"));
+//			request.add(new IndexRequest("news").id("8")  
+//			        .source(XContentType.JSON,"word", "금융이란"));
+//			request.add(new IndexRequest("news").id("9")  
+//			        .source(XContentType.JSON,"word", "금융위기"));
+//			request.add(new IndexRequest("news").id("10")  
+//			        .source(XContentType.JSON,"word", "부자"));
+//			request.add(new IndexRequest("news").id("11")  
+//			        .source(XContentType.JSON,"word", "부동산"));
+//			request.add(new IndexRequest("news").id("12")  
+//			        .source(XContentType.JSON,"word", "부양"));
+//			request.add(new IndexRequest("news").id("13")  
+//			        .source(XContentType.JSON,"word", "삼성"));
+//			request.add(new IndexRequest("news").id("14")  
+//			        .source(XContentType.JSON,"word", "삼성전자"));
+//			request.add(new IndexRequest("news").id("15")  
+//			        .source(XContentType.JSON,"word", "삼성에스원"));
+//			request.add(new IndexRequest("news").id("16")  
+//			        .source(XContentType.JSON,"word", "삼성전기"));
+//			request.add(new IndexRequest("news").id("17")  
+//			        .source(XContentType.JSON,"word", "경제뉴스"));
+//			request.add(new IndexRequest("news").id("18")  
+//			        .source(XContentType.JSON,"word", "경제신문"));
+//			request.add(new IndexRequest("news").id("19")  
+//			        .source(XContentType.JSON,"word", "경제위기"));
+//			request.add(new IndexRequest("news").id("20")  
+//			        .source(XContentType.JSON,"word", "경제란"));
 			BulkResponse bulkResponse = client.bulk(request, RequestOptions.DEFAULT);
 			return bulkResponse;
 		}

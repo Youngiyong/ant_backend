@@ -24,17 +24,13 @@
   	</select>
   	
   	<select id="increaseStocks" resultType="com.ant.vo.StockVO">
-  		SELECT `name`, `code`, price, `change`, datetime FROM stocklist 
-			WHERE 82600 > TIMESTAMPDIFF(SECOND , datetime, NOW())
+  		SELECT `name`, `code`, price, `change` FROM stocklist 
 			ORDER BY `change` DESC LIMIT 4
   	</select>
   	
   	<select id="decreaseStocks" resultType="com.ant.vo.StockVO">
-  		  	SELECT `name`, `code`, price, `change`, datetime FROM stocklist 
-			WHERE 82600 > TIMESTAMPDIFF(SECOND , datetime, NOW())
+  		  	SELECT `name`, `code`, price, `change` FROM stocklist 
 			ORDER BY `change` ASC LIMIT 4
   	</select>
-  	
-
   	
 </mapper>

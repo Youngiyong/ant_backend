@@ -1,4 +1,5 @@
 package com.ant.controller;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,19 +34,20 @@ public class BoardController {
  
 
     @GetMapping
-    public List<BoardVO> BoardListGet() throws Exception {
+    public List<BoardVO> fetchBoards() throws Exception {
     	System.out.println("전체 최신순 게시물 요청");
+    	
+    	List<BoardVO> TopMainboardList = boardService.fetchTopMainBoards();
+    	
     	List<BoardVO> boardList = boardService.boardListGet();
-//    	System.out.println(boardList);
-        	return boardList;
+    	
+    	List<BoardVO> joined = new ArrayList<>();
+    	joined.addAll(TopMainboardList);
+    	joined.addAll(boardList);
+    	
+        return joined;
     }
-    @GetMapping("/fetchtopmainboards")
-    public List<BoardVO> fetchTopMainBoards() throws Exception {
-    	System.out.println("조회수,좋아요 최근7일중 가장높은 게시물 두 가지 요청");
-    	List<BoardVO> boardList = boardService.fetchTopMainBoards();
-//    	System.out.println(boardList);
-        	return boardList;
-    }
+
     @DeleteMapping("/{boardid}")
     public void deleteBoard(@PathVariable int boardid) {
     	boardService.deleteBoard(boardid);

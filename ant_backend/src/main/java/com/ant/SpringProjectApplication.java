@@ -9,7 +9,6 @@ public class SpringProjectApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringProjectApplication.class, args);
-		//웹애플리케이션 구동
 	}
 
 }

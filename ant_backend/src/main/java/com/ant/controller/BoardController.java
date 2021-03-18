@@ -60,6 +60,11 @@ public class BoardController {
 
 	@Autowired
 	BoardServiceImpl boardService;
+	
+	@Autowired
+	Storage storage;
+	
+	
 
 	private final Path root = Paths.get("upload");
 
@@ -90,7 +95,7 @@ public class BoardController {
 
 	// 이미지 업로드
 	@PostMapping("/image")
-	public void addImage(@RequestParam("file") MultipartFile file) throws Exception {
+	public String addImage(@RequestParam("file") MultipartFile file) throws Exception {
 
 		Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
 		System.out.println(root);
@@ -102,12 +107,18 @@ public class BoardController {
 
 		System.out.println(fileName);
 
-//		BlobInfo blobInfo = storage.create(BlobInfo.newBuilder("smartants_board_image", fileName).build(),
-//				file.getBytes(), // the file
-//				BlobTargetOption.predefinedAcl(PredefinedAcl.PUBLIC_READ) // Set file permission
-//		);
-//		System.out.println("이미지 경로 : " + blobInfo.getMediaLink());
-//		return blobInfo.getMediaLink();
+		BlobInfo blobInfo = storage.create(BlobInfo.newBuilder("smartants_board_image", fileName).build(),
+				file.getBytes(), // the file
+				BlobTargetOption.predefinedAcl(PredefinedAcl.PUBLIC_READ) // Set file permission
+		);
+		System.out.println("이미지 경로 : " + blobInfo.getMediaLink());
+		
+		
+		System.out.println(this.root+file.getOriginalFilename());
+		File delfile = new File(this.root+"/"+file.getOriginalFilename());
+		delfile.delete();
+		
+		return blobInfo.getMediaLink();
 	}
 
 	@DeleteMapping("/{boardid}")

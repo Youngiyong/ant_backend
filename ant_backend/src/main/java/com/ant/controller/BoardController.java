@@ -97,26 +97,19 @@ public class BoardController {
 	@PostMapping("/image")
 	public String addImage(@RequestParam("file") MultipartFile file) throws Exception {
 
-		Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-		System.out.println(root);
-
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
 		LocalDateTime dt = LocalDateTime.now();
 		String dtString = dt.format(dtf);
 		final String fileName = dtString + file.getOriginalFilename();
 
 		System.out.println(fileName);
-
+ 
 		BlobInfo blobInfo = storage.create(BlobInfo.newBuilder("smartants_board_image", fileName).build(),
 				file.getBytes(), // the file
 				BlobTargetOption.predefinedAcl(PredefinedAcl.PUBLIC_READ) // Set file permission
 		);
+		
 		System.out.println("이미지 경로 : " + blobInfo.getMediaLink());
-		
-		
-		System.out.println(this.root+file.getOriginalFilename());
-		File delfile = new File(this.root+"/"+file.getOriginalFilename());
-		delfile.delete();
 		
 		return blobInfo.getMediaLink();
 	}

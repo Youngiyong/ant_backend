@@ -114,24 +114,13 @@ public class IndicatorServiceImpl implements IndicatorService {
 	public List<IndiCommentVO> fetchCommentsByIndID(String symbol, int number) {
 		System.out.println("댓글-리스트");
 		int firstRow = (number-1)*countPerPage;
-		//int endRow = num*countPerPage; 
 		HashMap map = new HashMap();
 		map.put("symbolname", symbol);
 		map.put("number", firstRow);	
-		//map.put("row2", endRow);
 		return IndicatorMapper.fetchCommentsByIndID(map);
 	}
 
-	@Override
-	public List<IndiCommentVO> firstCommentsByIndID(String symbol) {
-		return IndicatorMapper.firstCommentsByIndID(symbol);
-	}
-
-	//댓글-리스트숫자
-	public int numberCommentsByIndID(String symbolname) {
-		return IndicatorMapper.numberCommentsByIndID(symbolname);
-	}
-
+	
 	//댓글-삭제
 	public int deleteUserByUpdate(int comment_id) {
 		System.out.println("댓글삭제-서비스임플"+ comment_id);

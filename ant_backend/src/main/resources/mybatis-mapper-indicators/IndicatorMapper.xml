@@ -55,20 +55,10 @@
   insert into indicomment(indiname, userid, nickname, comment_content, comment_Likenum, comment_hidden, comment_createdata)
    values(#{indiName}, #{userId}, #{nickName}, #{comment_content}, 0, 0, now())
   </insert>
-  
-  <!-- 댓글 리스트1-->
-  <select id="firstCommentsByIndID"  parameterType="string" resultType="com.ant.vo.IndiCommentVO">
-   SELECT * FROM indicomment WHERE indiname=#{symbolname} ORDER BY comment_id desc LIMIT 5 OFFSET 0 
-  </select>
-  
-    <!-- 댓글 리스트2-->
+ 
+   <!-- 댓글 리스트-->
    <select id="fetchCommentsByIndID"  parameterType="hashmap" resultType="com.ant.vo.IndiCommentVO">
-     SELECT * FROM indicomment WHERE indiname=#{symbolname} ORDER BY comment_id desc LIMIT 5 OFFSET ${number} 
-  </select>
-  
-  <!-- 리스트숫자 -->
-  <select id="numberCommentsByIndID"  parameterType="String" resultType="int">
-     SELECT truncate(COUNT(*)/5, 0) + 1 FROM indicomment WHERE indiname=#{symbolname}
+    SELECT * FROM indicomment WHERE indiname=#{symbolname} ORDER BY comment_id desc LIMIT 5 OFFSET ${number} 
   </select>
   
    <!-- 댓글삭제 -->

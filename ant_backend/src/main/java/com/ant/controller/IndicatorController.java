@@ -109,7 +109,7 @@ public class IndicatorController {
     //댓글-INSERT
     @PostMapping("/input")
 	public void insertIndicator(@RequestBody IndiCommentVO indicomment) {
-    	System.out.println("댓글-원-달러");
+    	System.out.println("댓글-지표");
     	indicatorService.insertIndicator(indicomment);
 	}
     
@@ -121,12 +121,12 @@ public class IndicatorController {
     	return indicatorService.fetchCommentsByIndID(symbolname, number);
 	}
     
-  //댓글-LisT
-    @GetMapping("/comList/{symbolname}")
-	public List<IndiCommentVO> firstCommentsByIndID(@PathVariable String symbolname) {
-    	System.out.println("댓글-리스트");
-    	return indicatorService.firstCommentsByIndID(symbolname);
+    //댓글-삭제
+    @DeleteMapping("/del/{comment_id}")
+	public int deleteUserByUpdate(@PathVariable int comment_id) {
+    	System.out.println("댓글삭제");
+    	return indicatorService.deleteUserByUpdate(comment_id);
 	}
-
+    
     
 }

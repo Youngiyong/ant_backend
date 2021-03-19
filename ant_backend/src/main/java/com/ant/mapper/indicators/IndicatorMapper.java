@@ -49,13 +49,7 @@ public interface IndicatorMapper {
 	void insertIndicator(IndiCommentVO indicomment);
 
 	//댓글리스트-지표
-	//List<IndiCommentVO> fetchCommentsByIndID(String symbol);
 	List<IndiCommentVO> fetchCommentsByIndID(HashMap map);
-
-	List<IndiCommentVO> firstCommentsByIndID(String symbol);
-
-	//댓글-리스트숫자
-	int numberCommentsByIndID(String symbolname);
 
 	//댓글-삭제
 	 int deleteUserByUpdate(int comment_id);

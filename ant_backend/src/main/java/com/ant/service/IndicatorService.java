@@ -13,7 +13,6 @@ import com.ant.vo.KakaoUserVO;
 import com.ant.vo.PaymentVO;
 import com.ant.vo.TestVO;
 
-
 public interface IndicatorService {
 
 	// 국외 환율 List 
@@ -45,9 +44,6 @@ public interface IndicatorService {
 	
 	//댓글-입력
 	public void insertIndicator(IndiCommentVO indicomment);
-	
-	//댓글리스트
-	public List<IndiCommentVO> firstCommentsByIndID(String symbol);
 	
 	//댓글리스트
 	public List<IndiCommentVO> fetchCommentsByIndID(String symbol, int number);

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ant.service.StockServiceImpl;
 import com.ant.vo.StockListVO;
+import com.ant.vo.StockVO;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -34,5 +35,12 @@ public class StockController {
 		System.out.println(stockId);
 		return stockService.selectByStockId(stockId);
 	}
-
+	
+	@GetMapping("/StocksList")
+	public List<StockVO> selectByAllStocks(){
+		List<StockVO> vo = stockService.selectByAllStocks();
+		System.out.println(vo.get(0).getCode());
+		System.out.println(vo.get(0).getDatetime());
+		return vo;
+	}
 }

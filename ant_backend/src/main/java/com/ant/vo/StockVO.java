@@ -10,5 +10,6 @@ public class StockVO {
 	String code;
 	float change;
 	int price;
+	Date datetime;
 	
 }

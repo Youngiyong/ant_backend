@@ -27,4 +27,7 @@ public interface StockService {
 	public List<ChangedateVO> decreaseStocks();
 	// 메인화면 상승순
 	public List<ChangedateVO> increaseStocks();
+
+	// 전체 종목 리스트
+	public List<StockVO> selectByAllStocks();
 }

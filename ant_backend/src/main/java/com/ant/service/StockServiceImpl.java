@@ -48,4 +48,9 @@ public class StockServiceImpl {
 		return stockMapper.increaseStocks();
 	}
 	
+	// 전체 종목 리스트
+	public List<StockVO> selectByAllStocks(){
+		return stockMapper.selectByAllStocks();
+	}
+	
 }

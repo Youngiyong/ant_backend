@@ -63,10 +63,6 @@ public class BoardController {
 	
 	@Autowired
 	Storage storage;
-	
-	
-
-	private final Path root = Paths.get("upload");
 
 	@GetMapping
 	public List<BoardVO> fetchBoards() throws Exception {

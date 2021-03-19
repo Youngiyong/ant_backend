@@ -68,8 +68,10 @@ public class NewsController {
     // 메인 화면 유저별 키워드 리스트
     @GetMapping("/selectkeywords/{userId}")
 	public UserVO selectKeywordByUserId(@PathVariable int userId){
-    	System.out.println("userId:"+userId);
     	UserVO result = NewsService.selectKeywordByUserId(userId);
+		System.out.println("여기"+result.getKeyword());
+		System.out.println(result);
+
     	return result;
 	}
     
@@ -102,7 +104,6 @@ public class NewsController {
        	UserVO result = NewsService.selectKeywordByUserId(userId);
        	String[] temp = result.getKeyword().split(",");
        	ArrayList<String> list = new ArrayList<>();
-       	System.out.println(keyword);
        	list.add(keyword);
        	for(int i=0; i<temp.length; i++) {
        		if(temp[i].equals(keyword)) {

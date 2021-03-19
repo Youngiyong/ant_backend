@@ -33,4 +33,7 @@
 			ORDER BY `change` ASC LIMIT 4
   	</select>
   	
+  	<select id="selectByAllStocks" resultType="com.ant.vo.StockVO">
+  			SELECT * FROM stocklist
+  	</select>
 </mapper>
